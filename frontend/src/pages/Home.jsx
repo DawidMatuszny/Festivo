@@ -1,10 +1,36 @@
-import React from "react";
-import "../styles/home.css"; 
+import React from 'react';
+import ImageSlider from '../components/ImageSlider'; 
+import '../styles/home.css'; 
+import Navbar from "../components/Navbar";
+
 function Home() {
   return (
-    <div className="home-container">
-      <h1 className="home-header">Welcome to the Home Page!</h1>
-      <button className="home-button">Click Me</button>
+    <div>
+       <Navbar />
+      <div className="home-container">
+        <header className="home-header">
+          <h1>Witaj na stronie głównej!</h1>
+          <p>Witaj w naszej aplikacji. Cieszymy się, że tu jesteś!</p>
+        </header>
+
+        <section className="home-slider">
+          {/* Tutaj dodajemy nasz komponent slajdera */}
+          <ImageSlider />
+        </section>
+
+        <section className="home-content">
+          <h2>Co nowego?</h2>
+          <p>
+            Zaczynamy rozwijać nową funkcjonalność, która pozwoli ci w pełni
+            wykorzystać naszą platformę. Bądź na bieżąco!
+          </p>
+          <button className="home-button">Zaczynamy!</button>
+        </section>
+
+        <footer className="home-footer">
+          <p>© 2024 Twoja Firma</p>
+        </footer>
+      </div>
     </div>
   );
 }

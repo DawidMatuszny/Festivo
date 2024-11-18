@@ -1,0 +1,37 @@
+/* src/components/ImageSlider.css */
+
+/* Kontener slajdera */
+.slider-container {
+    width: 100%;
+    max-width: 600px; /* Możesz dostosować do swoich potrzeb */
+    overflow: hidden; /* Ukrywa obrazki, które wykraczają poza kontener */
+    border-radius: 10px; /* Opcjonalnie, zaokrąglenie rogów */
+}
+
+/* Ustawienie flexboxa dla slajdera */
+.slider {
+    display: flex; /* Ustawia obrazy obok siebie */
+    animation: slide 9s linear infinite; /* Animacja trwa 9 sekund, powtarza się w nieskończoność */
+}
+
+/* Obrazy w slajderze */
+.slider img {
+    width: 100%;
+    flex-shrink: 0; /* Zapewnia, że obrazki się nie będą kurczyć */
+}
+
+/* Animacja zmieniająca obrazy - przemieszcza wszystkie obrazy w prawo */
+@keyframes slide {
+    0% {
+        transform: translateX(0); /* Początkowa pozycja */
+    }
+    33.33% {
+        transform: translateX(-100%); /* Przesunięcie w lewo o szerokość jednego obrazka */
+    }
+    66.66% {
+        transform: translateX(-200%); /* Przesunięcie w lewo o dwa obrazki */
+    }
+    100% {
+        transform: translateX(-300%); /* Po 3 obrazkach, animacja zaczyna się na nowo, ale obrazy nadal przesuwają się w prawo */
+    }
+}

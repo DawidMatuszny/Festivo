@@ -1,0 +1,53 @@
+
+.navbar {
+    background-color: #19023d; 
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 50px rgba(0, 0, 0, 1.5);
+}
+
+.navbar-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-item {
+    margin-right: 0;
+    padding: 0 10px;
+    position: relative;
+    list-style: none;
+}
+
+.navbar-right {
+    display: flex;
+    margin-left: auto; 
+}
+
+.navbar-link {
+    text-decoration: none;
+    color: #ffffff; 
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.4s ease;
+}
+
+.navbar-link:hover {
+    color: #9a8cfd; 
+}
+
+.navbar-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background-color: white; /* Kolor kreski */
+}
