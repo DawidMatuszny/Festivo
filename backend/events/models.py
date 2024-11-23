@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Event(models.Model):
+    title = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     event_date = models.DateTimeField()
     location = models.CharField(max_length=255)

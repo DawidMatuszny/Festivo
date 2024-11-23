@@ -43,7 +43,7 @@ html, body {
     width: 95%;
     padding: 10px;
     margin: 20px 0;
-    background-color: #19023d;
+    background: radial-gradient(circle, #4c0f75, #17002b);
     color: white;
     border: none;
     border-radius: 20px;
@@ -52,7 +52,7 @@ html, body {
   }
   
   .form-button:hover {
-    background-color: #360583;
+    background: radial-gradient(circle, #912ed3, #6309b3);
   }
 
   .form-error {

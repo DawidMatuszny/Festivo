@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import CreateEvents from "./pages/CreateEvent";
+import Events from "./pages/Events";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function Logout() {
@@ -21,6 +23,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/events/create" element={<CreateEvents />} />
+        <Route path="/events" element={<Events />} />
       </Routes>
     </BrowserRouter>
   );

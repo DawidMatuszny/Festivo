@@ -21,6 +21,9 @@ function Navbar() {
                 <li className="navbar-item">
                     <Link to="/" className="navbar-link">Home</Link>
                 </li>
+                <li className="navbar-item">
+                    <Link to="/events" className="navbar-link">Wydarzenia</Link>
+                </li>
                 <div className="navbar-right">
                     {isLoggedIn ? (
                     <li className="navbar-item">

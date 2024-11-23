@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: lightblue;
+  background: radial-gradient(circle, #4c0f75, #17002b);
 }
 
 .home-header {

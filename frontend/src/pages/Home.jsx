@@ -4,35 +4,26 @@ import '../styles/home.css';
 import Navbar from "../components/Navbar";
 
 function Home() {
-  return (
-    <div>
-       <Navbar />
-      <div className="home-container">
-        <header className="home-header">
-          <h1>Witaj na stronie głównej!</h1>
-          <p>Witaj w naszej aplikacji. Cieszymy się, że tu jesteś!</p>
-        </header>
+    return (
+      <div>
+        <Navbar />
+        <div className="home-container">
+          <header className="home-header">
+            <h1>Witaj na stronie głównej!</h1>
+            <p>Witaj w naszej aplikacji. Cieszymy się, że tu jesteś!</p>
+          </header>
 
-        <section className="home-slider">
-          {/* Tutaj dodajemy nasz komponent slajdera */}
-          <ImageSlider />
-        </section>
+          <section className="home-slider">
+            {/* Tutaj dodajemy nasz komponent slajdera */}
+            <ImageSlider />
+          </section>
 
-        <section className="home-content">
-          <h2>Co nowego?</h2>
-          <p>
-            Zaczynamy rozwijać nową funkcjonalność, która pozwoli ci w pełni
-            wykorzystać naszą platformę. Bądź na bieżąco!
-          </p>
-          <button className="home-button">Zaczynamy!</button>
-        </section>
-
-        <footer className="home-footer">
-          <p>© 2024 Twoja Firma</p>
-        </footer>
+          <footer className="home-footer">
+            <p>© 2024 Twoja Firma</p>
+          </footer>
+        </div>
       </div>
-    </div>
-  );
+    );
 }
 
 export default Home;
