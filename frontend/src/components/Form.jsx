@@ -23,7 +23,7 @@ function Form({ route, method }) {
     e.preventDefault();
     setLoading(true);
     setErrors({});
-
+  
     const formData = isLogin
       ? { email, password }
       : { email, password, confirm_password: confirmPassword, first_name: firstName, last_name: lastName };
@@ -50,8 +50,10 @@ function Form({ route, method }) {
   };
 
   return (
+    <div>
+    <Navbar />
     <div className="form-back">
-        <Navbar />
+        
         <form onSubmit={handleSubmit} className="form-container">
         <h1>{formTitle}</h1>
 
@@ -127,6 +129,7 @@ function Form({ route, method }) {
             {formTitle}
         </button>
         </form>
+    </div>
     </div>
   );
 }

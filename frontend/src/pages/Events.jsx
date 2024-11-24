@@ -30,9 +30,11 @@ const Events = () => {
 
     
     return (
-        <div className="events-container">
+        <div>
         <Navbar />
-        <h1 className="header">Nadchodzące wydarzenia</h1>
+        <div id="main"> 
+        <div className="events-container">
+        <h1>Nadchodzące wydarzenia</h1>
         <div className="events-list">
             {events.map((event) => (
             <div className="event-card" key={event.id}>
@@ -49,6 +51,8 @@ const Events = () => {
             ))}
         </div>
         </div>
+        </div>
+        </div> 
     );
 };
 

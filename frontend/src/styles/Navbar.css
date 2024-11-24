@@ -1,53 +1,83 @@
-
-.navbar {
-    background-color: #19023d; 
-    padding: 10px 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 50px rgba(0, 0, 0, 1.5);
+a {
+    font-size: var(--paragraph);
 }
 
-.navbar-list {
-    list-style: none;
+ul, ol {
+    margin: 1em 0;
+}
+
+#navbar {
+    top: 0;
+    padding: 0;
+    width: 4em;
+    height: 100vh;
+    position: fixed;
+    background-color: hsl(var(--background-secondary-dark));
+    transition: width .35s cubic-bezier(var(--transition-main), 1);
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#navbar:hover {
+    width: 16em;
+}
+#navbar::-webkit-scrollbar-track {
+    background-color: hsl(var(--background-secondary));
+}
+#navbar::-webkit-scrollbar {
+    width: 8px;
+    background-color: hsl(var(--background-secondary));
+}
+#navbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary));
+}
+.navbar-items {
     margin: 0;
     padding: 0;
+    list-style-type: none;
 }
 
 .navbar-item {
-    margin-right: 0;
-    padding: 0 10px;
+    margin-top: 5px;
+    padding: 0 .5em;
+    width: 100%;
+    cursor: pointer;
+}
+.navbar-item-inner {
+    padding: 1em 0;
+    width: 100%;
     position: relative;
-    list-style: none;
-}
-
-.navbar-right {
-    display: flex;
-    margin-left: auto; 
-}
-
-.navbar-link {
+    color: hsl(var(--quite-gray));
+    border-radius: .75em;
     text-decoration: none;
-    color: #ffffff; 
-    font-size: 16px;
-    font-weight: bold;
-    transition: color 0.4s ease;
+    transition: all .2s cubic-bezier(var(--transition-main), 1);
+}
+.navbar-item-inner:hover {
+    color: hsl(var(--white));
+    background: hsl(var(--background-secondary-light));
+    box-shadow: 0 17px 30px -10px hsla(var(--black), .25);
+}
+.navbar-item-inner-icon-wrapper {
+    width: calc(5rem - 1em - 8px);
+    position: relative;
 }
 
-.navbar-link:hover {
-    color: #9a8cfd; 
+.link-text {
+    margin: 0;
+    width: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: all .35s cubic-bezier(var(--transition-main), 1);
+    overflow: hidden;
+    opacity: 0;
+}
+#navbar:hover .link-text {
+    width: calc(100% - calc(5rem - 8px));
+    opacity: 1;
 }
 
-.navbar-item:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 1px;
-    background-color: white; /* Kolor kreski */
+.navbar-items:last-of-type {
+    margin-top: auto;
 }

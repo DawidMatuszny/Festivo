@@ -33,8 +33,9 @@ function CreateEvents() {
             
         }
     return (
-        <div className="form-back">
+        <div> 
         <Navbar />
+        <div className="form-back">
         <form onSubmit={handleSubmit} className="form-container">
         <h1>Dodawanie wydarzenia</h1>
         
@@ -82,6 +83,7 @@ function CreateEvents() {
                 {"Dodaj"}
         </button>
         </form>
+    </div>
     </div>
     )
 }

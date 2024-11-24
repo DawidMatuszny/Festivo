@@ -6,7 +6,8 @@ import Navbar from "../components/Navbar";
 function Home() {
     return (
       <div>
-        <Navbar />
+       <Navbar />
+      
         <div className="home-container">
           <header className="home-header">
             <h1>Witaj na stronie głównej!</h1>
