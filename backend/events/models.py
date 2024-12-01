@@ -7,18 +7,27 @@ class Event(models.Model):
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     event_date = models.DateTimeField()
-    location = models.CharField(max_length=255)
+    place = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
     description = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     max_participants = models.PositiveIntegerField() 
     available_spots = models.PositiveIntegerField() 
-    tags = models.ManyToManyField('Tag', related_name='events')
+    category = models.ForeignKey('Categories', related_name='events', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.description} ({self.event_date})"
+        return self.title
 
-class Tag(models.Model):
+class Categories(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
+    
+class EventRegistration(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='event_registrations')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='participants')
+    registered_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+            unique_together = ('user', 'event')

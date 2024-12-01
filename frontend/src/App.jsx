@@ -6,8 +6,12 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import CreateEvents from "./pages/CreateEvent";
 import Events from "./pages/Events";
+import ShowEvent from "./pages/ShowEvent";
+import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Test from "./pages/test";
+import Navbar from "./components/Navbar";
+import { UserProvider } from './UserContext';
 
 function Logout() {
   localStorage.clear();
@@ -16,19 +20,23 @@ function Logout() {
 
 function App() {
   return (
-    
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />}/>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/events/create" element={<CreateEvents />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/test" element={<Test />} />
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/events/create" element={<CreateEvents />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/event/:id" element={<ShowEvent />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 

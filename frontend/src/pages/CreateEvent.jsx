@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../styles/Form.css";
 import api from "../api";
 import Navbar from "../components/Navbar";
@@ -7,18 +7,42 @@ import { useNavigate } from "react-router-dom";
 function CreateEvents() {
     const [title, setTitle] = useState("");
     const [eventdate, setEventdate] = useState("");
-    const [location, setLocation] = useState("");
+    const [place, setPlace] = useState("");
+    const [address, setAddress] = useState("");
     const [description, setDescription] = useState("");
     const [maxparticipants, setMaxparticipants] =useState(0);
+    const [category, setCategory] = useState("");
+    const [availablecategories, setAvailablecategories] = useState([]);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+
+
+    useEffect(() => {
+        const fetchcategories = async () => {
+          try {
+            const res = await api.get("/event/categories/");
+            setAvailablecategories(res.data);
+            setCategory(res.data[0].id);    
+          } catch (error) {
+            console.error("Błąd pobierania kategorii:", error);
+          }
+        };
+        fetchcategories();
+    }, []);
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
         try {
-            const res = await api.post("events/create/", {title, event_date:eventdate, location, description, max_participants:maxparticipants});
+            const res = await api.post("events/create/", {
+                title, 
+                event_date:eventdate, 
+                place,
+                address,
+                description, 
+                max_participants:maxparticipants, 
+                category});
             
         } catch (error) {
             if (error.response && error.response.data) {
@@ -31,14 +55,14 @@ function CreateEvents() {
                 setLoading(false);
             }
             
-        }
+        };
+
     return (
         <div> 
         <Navbar />
         <div className="form-back">
         <form onSubmit={handleSubmit} className="form-container">
         <h1>Dodawanie wydarzenia</h1>
-        
             <input
                 className="form-input"
                 type="text"
@@ -47,6 +71,7 @@ function CreateEvents() {
                 placeholder="Nazwa wydarzenia"
                 required
                 />
+            <p className='errors'>{errors.title}</p>
             <input
                 className="form-input"
                 type="datetime-local"
@@ -55,16 +80,27 @@ function CreateEvents() {
                 placeholder="Data"
                 required
                 />
+            <p className='errors'>{errors.event_date}</p>
             <input
                 className="form-input"
                 type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Lokalizacja wydarzenia"
+                value={place}
+                onChange={(e) => setPlace(e.target.value)}
+                placeholder="Miejsce wydarzenia"
                 required
                 />
-            <input
+            <p className='errors'>{errors.place}</p>
+             <input
                 className="form-input"
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Adres wydarzenia"
+                required
+                />
+            <p className='errors'>{errors.address}</p>
+            <textarea
+                className="form-input-desc"
                 type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -79,13 +115,26 @@ function CreateEvents() {
                 placeholder="Liczba miejsc"
                 required
                 />
-                <button className="form-button" type="submit" disabled={loading}>
-                {"Dodaj"}
-        </button>
+            <label htmlFor="categories">Tagi</label>
+            <select
+                className="form-input"
+                value={category} 
+                onChange={(e) => setCategory(e.target.value)}
+            >
+                {availablecategories.map((tag) => (
+                    <option key={tag.id} value={tag.id}>
+                        {tag.name}
+                    </option>
+                ))}
+            </select>
+
+            <button className="form-button" type="submit" disabled={loading}>
+            {"Dodaj"}
+            </button>
         </form>
     </div>
     </div>
-    )
+    );
 }
 
 export default CreateEvents

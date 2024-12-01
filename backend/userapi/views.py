@@ -38,3 +38,10 @@ class LoginUserView(APIView):
                 {"general": "Niepoprawny email lub hasło."},
                 status=status.HTTP_401_UNAUTHORIZED
             )
+        
+class LoggedUserDetailView(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

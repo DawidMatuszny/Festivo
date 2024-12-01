@@ -5,18 +5,15 @@
     --background-secondary-dark: 256, 10%, 10%;
     --background-secondary-light: 257, 11%, 16%;
     --text-primary: 0, 0%, 0%;
-    /* Colors */
     --black: 0, 0%, 0%;
     --white: 0, 0%, 100%;
     --quite-gray: 0, 0%, 50%;
     --grooble: 10, 28%, 93%;
-    /* Sizes */
     --heading-large: 5.6rem;
     --heading-medium: 3.6rem;
     --heading-small: 2.4rem;
     --paragraph: 1.1rem;
     --navbar-buttons: 2.4rem;
-    /* misc */
     --transition-main: .175, .685, .32;
 }
 
@@ -33,6 +30,11 @@ html, body {
     background-color: hsl(var(--background));
     scroll-behavior: smooth;
     box-sizing: border-box;
+}
+
+.errors {
+    color: red;
+    font-size: 13px;
 }
 
 .flexbox {
@@ -107,9 +109,7 @@ html, body {
     margin: 0 0 0 5em;
     min-height: 150vh;
 }
-h1 {
-    font-size: var(--heading-large);
-}
+
 
 @media only screen and (max-width: 1660px) {
     :root {

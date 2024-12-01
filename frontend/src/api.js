@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ACCESS_TOKEN } from "./constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constants";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -16,6 +16,34 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+        const response = await axios.post(`${apiUrl}/userapi/token/refresh/`, { refresh: refreshToken });
+        const { access } = response.data;
+        localStorage.setItem(ACCESS_TOKEN, access)
+        originalRequest.headers.Authorization = `Bearer ${access}`;
+        return axios(originalRequest);
+      } catch (error) {
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN);
+        console.error("Failed to refresh token:", error);
+        return Promise.reject({
+          message: "Twoja sesja wygasła. Zaloguj się ponownie.",
+          originalError: error,
+        });
+      }
+    }
     return Promise.reject(error);
   }
 );

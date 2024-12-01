@@ -30,8 +30,6 @@ const Events = () => {
 
     
     return (
-        <div>
-        <Navbar />
         <div id="main"> 
         <div className="events-container">
         <h1>Nadchodzące wydarzenia</h1>
@@ -52,7 +50,6 @@ const Events = () => {
         </div>
         </div>
         </div>
-        </div> 
     );
 };
 
