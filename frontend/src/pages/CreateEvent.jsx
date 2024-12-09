@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import "../styles/Form.css";
 import api from "../api";
 import Navbar from "../components/Navbar";
+import { useUser } from "../UserContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from "../NotificationContext";
 
 function CreateEvents() {
     const [title, setTitle] = useState("");
@@ -15,7 +19,9 @@ function CreateEvents() {
     const [availablecategories, setAvailablecategories] = useState([]);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-
+    const { logout } = useUser();
+    const { notify } = useNotification(); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchcategories = async () => {
@@ -43,7 +49,8 @@ function CreateEvents() {
                 description, 
                 max_participants:maxparticipants, 
                 category});
-            
+            toast.success("Wydarzenie zostało pomyślnie dodane!");
+
         } catch (error) {
             if (error.response && error.response.data) {
                 const backendErrors = error.response.data;
@@ -51,6 +58,10 @@ function CreateEvents() {
               } else {
                 setErrors({ general: "Wystąpił błąd. Spróbuj ponownie." });
               }
+            if (error.originalError.status === 401) {
+                notify("Sesja wygasła, zaloguj się ponownie!");
+                logout();
+            }
             } finally {
                 setLoading(false);
             }
@@ -133,6 +144,7 @@ function CreateEvents() {
             </button>
         </form>
     </div>
+    <ToastContainer position="top-center"/>
     </div>
     );
 }

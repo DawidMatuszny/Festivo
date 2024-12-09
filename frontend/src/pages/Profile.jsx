@@ -3,6 +3,7 @@ import api from "../api";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../UserContext";
+import { useNotification } from "../NotificationContext";
 
 function Profile() {
     const [email, setEmail] = useState(null);
@@ -10,7 +11,7 @@ function Profile() {
     const [lastName, setLastName] = useState(null);
     const [error, setError] = useState(null);
     const { logout } = useUser();
-    const navigate = useNavigate("");
+    const { notify } = useNotification(); 
 
     const fetchEvents = async () => {
         try {
@@ -20,9 +21,8 @@ function Profile() {
             setLastName(response.data.last_name)
         } catch (error) {
             setError('Failed to fetch event details');
-            alert(error.message);
+            notify(error.message);
             logout();
-            navigate('/login')
         }
     };
 

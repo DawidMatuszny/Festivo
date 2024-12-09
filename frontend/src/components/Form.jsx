@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css";
 import LoadingIndicator from "./LoadingIndicator";
 import { useUser } from '../UserContext';
+import { useNotification } from "../NotificationContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Form({ route, method }) {
   const [email, setEmail] = useState("");
@@ -16,6 +19,7 @@ function Form({ route, method }) {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { login } = useUser();
+  const { message, clearMessage } = useNotification();
 
   const isLogin = method === "login";
   const formTitle = isLogin ? "Logowanie" : "Rejestracja";
@@ -48,6 +52,13 @@ function Form({ route, method }) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (message) {
+        toast.error(message);
+        clearMessage();
+    }
+}, [message]);
 
   return (
     <div className="form-back"> 
@@ -121,6 +132,7 @@ function Form({ route, method }) {
         {formTitle}
       </button>
       </form>
+      <ToastContainer position="top-center"/>
     </div>
   );
 }

@@ -35,8 +35,7 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${access}`;
         return axios(originalRequest);
       } catch (error) {
-        localStorage.removeItem(ACCESS_TOKEN);
-        localStorage.removeItem(REFRESH_TOKEN);
+        localStorage.clear()
         console.error("Failed to refresh token:", error);
         return Promise.reject({
           message: "Twoja sesja wygasła. Zaloguj się ponownie.",

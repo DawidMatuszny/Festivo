@@ -1,56 +1,101 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
-import Navbar from "../components/Navbar";
-import "../styles/Events.css";
+import axios from 'axios';
+import "../styles/events.css";
+import image1 from '../assets/images/muzyka.jpg';
 
 const Events = () => {
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]);  // Lista kategorii
+  const [events, setEvents] = useState([]);  // Wydarzenia dla wybranej kategorii
+  const [selectedCategory, setSelectedCategory] = useState("");  // Wybrana kategoria
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-
-    const fetchEvents = async () => {
-        try {
-        const response = await axios.get('http://127.0.0.1:8000/events/');
-        const sortedEvents = response.data.sort((a, b) => {
-            return new Date(a.event_date) - new Date(b.event_date);
-          });
-          setEvents(sortedEvents);
-        setLoading(false);
-        } catch (err) {
-        setError('Nie udało się pobrać wydarzeń.');
-        setLoading(false);
-        }
+  // Pobieranie dostępnych kategorii
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/event/categories/');
+        setCategories(response.data);  // Zapisujemy kategorie w stanie
+      } catch (err) {
+        setError('Nie udało się pobrać kategorii.');
+      }
     };
+    fetchCategories();
+  }, []);
 
-  
-    useEffect(() => {
-        fetchEvents();
-    }, []);
+  // Pobieranie wydarzeń dla wybranej kategorii
+  useEffect(() => {
+    if (selectedCategory) {
+      const fetchEventsByCategory = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get(`http://127.0.0.1:8000/events/?category=${selectedCategory}`);
+          setEvents(response.data);  // Zapisujemy wydarzenia w stanie
+          setLoading(false);
+        } catch (err) {
+          setError('Nie udało się pobrać wydarzeń.');
+          setLoading(false);
+        }
+      };
+      fetchEventsByCategory();
+    }
+  }, [selectedCategory]);  // Używamy selectedCategory jako zależność
 
-    
-    return (
-        <div id="main"> 
-        <div className="events-container">
-        <h1>Nadchodzące wydarzenia</h1>
-        <div className="events-list">
-            {events.map((event) => (
-            <div className="event-card" key={event.id}>
-                
-                <div className="event-details">
-                <h3 className="event-title">{event.title}</h3>
-                <p className="event-date">{new Date(event.event_date).toLocaleString()}</p>
-                <p className="event-description">{event.description}</p>
-                <a href={`/event/${event.id}`} className="event-link">
-                    Zobacz
-                </a>
-                </div>
-            </div>
-            ))}
-        </div>
-        </div>
-        </div>
-    );
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);  // Ustawiamy wybraną kategorię
+  };
+
+  return (
+    <div id='main'>
+      <h1>Wydarzenia</h1>
+      
+      {/* Wybór kategorii */}
+      <div>
+      
+        <label htmlFor="category">Wybierz kategorię:</label>
+        <select id="category" onChange={handleCategoryChange}>
+          <option value="">Wybierz kategorię</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        <div class="mask-container">
+        <div class="mask-background"></div>
+        <div
+      className="mask1"
+      style={{
+        width: '400px',
+        height: '300px',
+        backgroundImage: `url(${image1})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    ></div>
+    </div>
+      </div>
+      
+      {/* Wyświetlanie błędu, jeśli wystąpił */}
+      {error && <div>{error}</div>}
+      
+      {/* Wyświetlanie loading state */}
+      {loading && <div>Ładowanie wydarzeń...</div>}
+      
+      {/* Wyświetlanie wydarzeń */}
+      <div>
+        {events.length === 0 && !loading && <p>Brak wydarzeń w tej kategorii.</p>}
+        {events.map((event) => (
+          <div key={event.id} className="event-card">
+            <h3>{event.title}</h3>
+            <p>{new Date(event.event_date).toLocaleString()}</p>
+            <p>{event.description}</p>
+            <a href={`/event/${event.id}`}>Zobacz szczegóły</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Events;

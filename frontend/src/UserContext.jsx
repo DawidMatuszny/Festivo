@@ -1,10 +1,12 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants';
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem(ACCESS_TOKEN)) {
@@ -20,10 +22,8 @@ export const UserProvider = ({ children }) => {
 
   const logout = () => {
     setTimeout(() => {
-      if (localStorage.getItem(ACCESS_TOKEN) || localStorage.getItem(REFRESH_TOKEN)) {
-        localStorage.removeItem(ACCESS_TOKEN);
-        localStorage.removeItem(REFRESH_TOKEN);
-      }
+        localStorage.clear();
+        navigate("/login");
     setIsLogin(false);
     }, 200);
   };

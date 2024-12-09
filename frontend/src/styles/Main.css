@@ -27,7 +27,10 @@ html, body {
     width: 100%;
     color: hsl(var(--text-primary));
     font-family: var(--font-main);
-    background-color: hsl(var(--background));
+    background-image: url('../assets/images/tlo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     scroll-behavior: smooth;
     box-sizing: border-box;
 }

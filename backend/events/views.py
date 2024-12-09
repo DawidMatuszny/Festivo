@@ -11,12 +11,17 @@ class EventCreateView(generics.CreateAPIView):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated] 
 
-class EventListView(APIView):
+class EventListView(generics.ListAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
     permission_classes = [AllowAny]
-    def get(self, request):
-        events = Event.objects.all()
-        serializer = EventSerializer(events, many=True)
-        return Response(serializer.data)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category_id = self.request.query_params.get('category', None)
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        return queryset
 
 class EventDetailView(generics.RetrieveAPIView):
     queryset = Event.objects.all()
@@ -25,6 +30,7 @@ class EventDetailView(generics.RetrieveAPIView):
     
 
 class CategoriesListView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         categories = Categories.objects.all()
         serializer = CategoriesSerializer(categories, many=True)

@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Test from "./pages/test";
 import Navbar from "./components/Navbar";
 import { UserProvider } from './UserContext';
+import { NotificationProvider } from "./NotificationContext";
 
 function Logout() {
   localStorage.clear();
@@ -20,8 +21,9 @@ function Logout() {
 
 function App() {
   return (
-    <UserProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <UserProvider>
+        <NotificationProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />}/>
@@ -29,14 +31,15 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/events/create" element={<CreateEvents />} />
+          <Route path="/events/create" element={<ProtectedRoute><CreateEvents /></ProtectedRoute>} />
           <Route path="/events" element={<Events />} />
           <Route path="/test" element={<Test />} />
           <Route path="/event/:id" element={<ShowEvent />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         </Routes>
-      </BrowserRouter>
-    </UserProvider>
+        </NotificationProvider>
+      </UserProvider>
+    </BrowserRouter>
   );
 }
 

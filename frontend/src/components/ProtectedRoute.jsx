@@ -1,12 +1,17 @@
 import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import api from "../api";
+import axios from "axios";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
 import { useState, useEffect } from "react";
+import { useUser } from '../UserContext';
+import { useNotification } from "../NotificationContext";
 
 
 function ProtectedRoute({ children }) {
     const [isAuthorized, setIsAuthorized] = useState(null);
+    const { logout } = useUser();
+    const { notify } = useNotification(); 
 
     useEffect(() => {
         auth().catch(() => setIsAuthorized(false))
@@ -15,7 +20,7 @@ function ProtectedRoute({ children }) {
     const refreshToken = async () => {
         const refreshToken = localStorage.getItem(REFRESH_TOKEN);
         try {
-            const res = await api.post("/api/token/refresh/", {
+            const res = await axios.post("http://localhost:8000/userapi/token/refresh/", {
                 refresh: refreshToken,
             });
             if (res.status === 200) {
@@ -23,10 +28,14 @@ function ProtectedRoute({ children }) {
                 setIsAuthorized(true)
             } else {
                 setIsAuthorized(false)
+                notify("Sesja wygasła, zaloguj się ponownie!")
+                logout();
             }
         } catch (error) {
             console.log(error);
             setIsAuthorized(false);
+            notify("Sesja wygasła, zaloguj się ponownie!")
+            logout();
         }
     };
 
