@@ -1,98 +1,78 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import "../styles/events.css";
-import image1 from '../assets/images/muzyka.jpg';
+import { HiMusicalNote } from "react-icons/hi2";
+import { GiPaintBrush, GiFilmProjector } from "react-icons/gi";
+import { FaBookOpen } from "react-icons/fa";
+import { RxColorWheel } from "react-icons/rx";
+import { BsFillMortarboardFill } from "react-icons/bs";
+import { MdFamilyRestroom } from "react-icons/md";
+import { IoFootball } from "react-icons/io5";
+
 
 const Events = () => {
-  const [categories, setCategories] = useState([]);  // Lista kategorii
-  const [events, setEvents] = useState([]);  // Wydarzenia dla wybranej kategorii
-  const [selectedCategory, setSelectedCategory] = useState("");  // Wybrana kategoria
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  // Pobieranie dostępnych kategorii
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/event/categories/');
-        setCategories(response.data);  // Zapisujemy kategorie w stanie
-      } catch (err) {
-        setError('Nie udało się pobrać kategorii.');
-      }
-    };
-    fetchCategories();
-  }, []);
-
-  // Pobieranie wydarzeń dla wybranej kategorii
-  useEffect(() => {
-    if (selectedCategory) {
-      const fetchEventsByCategory = async () => {
-        setLoading(true);
-        try {
-          const response = await axios.get(`http://127.0.0.1:8000/events/?category=${selectedCategory}`);
-          setEvents(response.data);  // Zapisujemy wydarzenia w stanie
-          setLoading(false);
-        } catch (err) {
-          setError('Nie udało się pobrać wydarzeń.');
-          setLoading(false);
-        }
-      };
-      fetchEventsByCategory();
-    }
-  }, [selectedCategory]);  // Używamy selectedCategory jako zależność
-
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);  // Ustawiamy wybraną kategorię
+  const handleCategoryClick = (categoryID) => {
+    navigate(`/events/${categoryID}`); 
   };
-
   return (
     <div id='main'>
-      <h1>Wydarzenia</h1>
-      
-      {/* Wybór kategorii */}
-      <div>
-      
-        <label htmlFor="category">Wybierz kategorię:</label>
-        <select id="category" onChange={handleCategoryChange}>
-          <option value="">Wybierz kategorię</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-        <div class="mask-container">
-        <div class="mask-background"></div>
-        <div
-      className="mask1"
-      style={{
-        width: '400px',
-        height: '300px',
-        backgroundImage: `url(${image1})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    ></div>
-    </div>
-      </div>
-      
-      {/* Wyświetlanie błędu, jeśli wystąpił */}
-      {error && <div>{error}</div>}
-      
-      {/* Wyświetlanie loading state */}
-      {loading && <div>Ładowanie wydarzeń...</div>}
-      
-      {/* Wyświetlanie wydarzeń */}
-      <div>
-        {events.length === 0 && !loading && <p>Brak wydarzeń w tej kategorii.</p>}
-        {events.map((event) => (
-          <div key={event.id} className="event-card">
-            <h3>{event.title}</h3>
-            <p>{new Date(event.event_date).toLocaleString()}</p>
-            <p>{event.description}</p>
-            <a href={`/event/${event.id}`}>Zobacz szczegóły</a>
+      <div className="category-container">
+        <div className="category-card" onClick={() => handleCategoryClick('1')}>
+          <div className="category-icon">
+            <GiPaintBrush />
           </div>
-        ))}
+          <div className="category-title">Sztuka i kultura</div>
+        </div>
+
+        <div className="category-card" onClick={() => handleCategoryClick('2')}>
+          <div className="category-icon">
+            <HiMusicalNote />
+          </div>
+          <div className="category-title">Muzyka</div>
+        </div>
+
+        <div className="category-card" onClick={() => handleCategoryClick('3')}>
+          <div className="category-icon">
+            <GiFilmProjector />
+          </div>
+          <div className="category-title">Film i multimedia</div>
+        </div>
+
+        <div className="category-card" onClick={() => handleCategoryClick('4')}>
+          <div className="category-icon">
+            <FaBookOpen />
+          </div>
+          <div className="category-title">Literatura</div>
+        </div>
+
+        <div className="category-card" onClick={() => handleCategoryClick('5')}>
+          <div className="category-icon">
+            <RxColorWheel />
+          </div>
+          <div className="category-title">Kultura i tradycje</div>
+        </div>
+
+        <div className="category-card" onClick={() => handleCategoryClick('6')}>
+          <div className="category-icon">
+            <BsFillMortarboardFill />
+          </div>
+          <div className="category-title">Edukacja i nauka</div>
+        </div>
+
+        <div className="category-card" onClick={() => handleCategoryClick('7')}>
+          <div className="category-icon">
+            <MdFamilyRestroom />
+          </div>
+          <div className="category-title">Dla dzieci i rodzin</div>
+        </div>
+
+        <div className="category-card" onClick={() => handleCategoryClick('8')}>
+          <div className="category-icon">
+            <IoFootball />
+          </div>
+          <div className="category-title">Sport</div>
+        </div>
       </div>
     </div>
   );

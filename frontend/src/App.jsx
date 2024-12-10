@@ -11,6 +11,8 @@ import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Test from "./pages/test";
 import Navbar from "./components/Navbar";
+import CategoryEvents from './pages/CategoryEvents';
+import "./styles/main.css"
 import { UserProvider } from './UserContext';
 import { NotificationProvider } from "./NotificationContext";
 
@@ -35,6 +37,7 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/test" element={<Test />} />
           <Route path="/event/:id" element={<ShowEvent />} />
+          <Route path="/events/:category" element={<CategoryEvents />} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         </Routes>
         </NotificationProvider>
