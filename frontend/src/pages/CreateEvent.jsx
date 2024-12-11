@@ -17,6 +17,7 @@ function CreateEvents() {
     const [maxparticipants, setMaxparticipants] =useState(0);
     const [category, setCategory] = useState("");
     const [availablecategories, setAvailablecategories] = useState([]);
+    const [image, setImage] = useState(null);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const { logout } = useUser();
@@ -36,37 +37,52 @@ function CreateEvents() {
         fetchcategories();
     }, []);
     
+    const handleFileChange = (e) => {
+        setImage(e.target.files[0]); // Przechowuje wybrany plik
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        try {
-            const res = await api.post("events/create/", {
-                title, 
-                event_date:eventdate, 
-                place,
-                address,
-                description, 
-                max_participants:maxparticipants, 
-                category});
-            toast.success("Wydarzenie zostało pomyślnie dodane!");
 
+        // Tworzymy formData, które pozwala na przesyłanie plików
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("event_date", eventdate);
+        formData.append("place", place);
+        formData.append("address", address);
+        formData.append("description", description);
+        formData.append("max_participants", maxparticipants);
+        formData.append("category", category);
+
+        if (image) {
+            formData.append("image", image); // Dodajemy plik obrazu
+        }
+
+        try {
+            const res = await api.post("events/create/", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data", // Ważne, aby ustawić ten nagłówek
+                },
+            });
+            toast.success("Wydarzenie zostało pomyślnie dodane!");
+            // Możesz przekierować użytkownika na inną stronę, np. na listę wydarzeń
+            navigate("/events"); 
         } catch (error) {
             if (error.response && error.response.data) {
                 const backendErrors = error.response.data;
-                setErrors(backendErrors); 
-              } else {
+                setErrors(backendErrors);
+            } else {
                 setErrors({ general: "Wystąpił błąd. Spróbuj ponownie." });
-              }
-            if (error.originalError.status === 401) {
+            }
+            if (error.originalError && error.originalError.status === 401) {
                 notify("Sesja wygasła, zaloguj się ponownie!");
                 logout();
             }
-            } finally {
-                setLoading(false);
-            }
-            
-        };
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div> 
@@ -138,10 +154,16 @@ function CreateEvents() {
                     </option>
                 ))}
             </select>
+                    <input
+                        className="form-input"
+                        type="file"
+                        onChange={handleFileChange}
+                    />
+                    <p className="errors">{errors.image}</p>
 
-            <button className="form-button" type="submit" disabled={loading}>
-            {"Dodaj"}
-            </button>
+                    <button className="form-button" type="submit" disabled={loading}>
+                        {loading ? "Dodawanie..." : "Dodaj"}
+                    </button>
         </form>
     </div>
     <ToastContainer position="top-center"/>

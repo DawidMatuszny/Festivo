@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import image1 from '../assets/images/image1.jpg';
+import "../styles/events.css";
 
 const CategoryEvents = () => {
   const { category } = useParams();
@@ -25,24 +26,20 @@ const CategoryEvents = () => {
 
   return (
     <div id='main'>
-     <div className="events-container">
-      {events.length > 0 ? (
-        events.map((event) => (
-          <div key={event.id} className="event-card">
-            <div className="event-image">
-              <img src={event.image_url || image1 } alt={event.title} />
-            </div>
-            <div className="event-content">
-              <h3 className="event-title">{event.title}</h3>
-              <p className="event-date">{new Date(event.event_date).toLocaleString()}</p>
-              <p className="event-description">{event.description}</p>
-              <a href={`/event/${event.id}`} className="event-link">Zobacz więcej</a>
-            </div>
+    <div className="event-container">
+      {events.map((event) => (
+        <a key={event.id} href={`/event/${event.id}`} className="event-card" style={{ textDecoration: 'none' }}>
+          <div
+            className="event-image"
+            style={{
+              backgroundImage: `url(${event.image ? event.image : image1})`, }}
+          ></div>
+          <div className="event-description">
+            <h3>{event.title}</h3>
+            <p>{event.description}</p>
           </div>
-        ))
-      ) : (
-        <p className="no-events">Brak wydarzeń dla tej kategorii.</p>
-      )}
+        </a>
+      ))}
     </div>
     </div>
   );

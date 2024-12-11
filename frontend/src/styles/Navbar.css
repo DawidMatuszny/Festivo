@@ -82,3 +82,18 @@ ul, ol {
 .navbar-items:last-of-type {
     margin-top: auto;
 }
+
+.logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+
+  .navbar-logo {
+    padding-left: 20px;
+    height: 60px;
+    width: auto;
+    margin-right: 20px;
+  }

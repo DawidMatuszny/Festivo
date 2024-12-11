@@ -8,12 +8,16 @@ import { MdAccountCircle } from "react-icons/md";
 import { SiSimplelogin } from "react-icons/si";
 import { IoCreateOutline } from "react-icons/io5";
 import { useUser } from '../UserContext';
+import logo from '../assets/images/logo.png';
 
 function Navbar() {
   const { isLogin, logout } = useUser();
 
     return (
       <nav id="navbar">
+        <div className="logo-wrapper">
+        <img src={logo} alt="Logo" className="navbar-logo" />
+        </div>
         <ul className="navbar-items flexbox-col">
           <li className="navbar-item flexbox-left">
             <a href="/" className="navbar-item-inner flexbox">
@@ -22,8 +26,8 @@ function Navbar() {
               </div>
               <span className="link-text">Home</span>
             </a>
-
           </li>
+          
           <li className="navbar-item flexbox-left">
             <a href="/events" className="navbar-item-inner flexbox">
               <div className="navbar-item-inner-icon-wrapper flexbox">

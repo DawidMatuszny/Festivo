@@ -14,6 +14,7 @@ class Event(models.Model):
     max_participants = models.PositiveIntegerField() 
     available_spots = models.PositiveIntegerField() 
     category = models.ForeignKey('Categories', related_name='events', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='events/', null=True, blank=True)
 
     def __str__(self):
         return self.title

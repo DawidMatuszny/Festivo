@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 :root {
     --primary: 237, 94%, 71%;
     --background: 266, 76%, 32%;
@@ -109,8 +110,9 @@ html, body {
 }
 
 #main {
-    margin: 0 0 0 5em;
-    min-height: 150vh;
+    margin: 0 0 0 4em;
+    min-height: 100vh;
+    font-family: "Lora", serif;
 }
 
 
@@ -169,3 +171,10 @@ html, body {
 @media only screen and (max-width: 496px) {
 
 }
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }

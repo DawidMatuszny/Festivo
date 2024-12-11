@@ -3,6 +3,8 @@ from django.urls import path, include
 from userapi.views import CreateUserView, LoginUserView, LoggedUserDetailView
 from events.views import EventCreateView, EventListView, EventDetailView, CategoriesListView, EventRegistrationCreateView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -18,3 +20,6 @@ urlpatterns = [
     path('userapi/profile/', LoggedUserDetailView.as_view(), name='profile'),
     path('event/register/', EventRegistrationCreateView.as_view(), name='register_for_event' )
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

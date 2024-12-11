@@ -1,13 +1,13 @@
-.events-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit);
+.event-container {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
-  padding: 20px;
+  padding: 5vw;
 }
+
 .event-card {
   display: flex;
   flex-direction: row; 
-  border-radius: 100px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -15,71 +15,54 @@
 }
 
 .event-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.08);
 }
 
+.event {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  background: #f5f5f5; /* Tło wydarzenia */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 200px;
+}
 
 .event-image {
-  flex: 1; 
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 70% 100%, 0% 100%);
+  transition: transform 0.4s ease-in-out; /* Animacja powiększania */
 }
 
-.event-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
-
-
-.event-content {
-  flex: 2; 
-  padding: 15px;
-}
-
-.event-title {
-  font-size: 1.5em;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.event-date {
-  font-size: 0.9em;
-  color: #666;
-  margin-bottom: 15px;
-}
-
-.event-description {
-  font-size: 1em;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-/* Link do szczegółów */
-.event-link {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #ffffff;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.event-link:hover {
-  background-color: #0056b3;
-}
-
+.event-image:hover {
   
- 
-  .loader {
-    text-align: center;
-    font-size: 24px;
-    color: #4CAF50;
-    margin-top: 50px;
-  }  
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); /* Zmiana przekątnej */
+}
+
+/* Opis wydarzenia */
+.event-description {
+  flex: 2; /* Większa przestrzeń dla opisu */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.event-description h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.event-description p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
 
  .mask1-background {
   background-image: url('../assets/images/muzyka.jpg');
@@ -147,7 +130,7 @@
     border-bottom: 2px solid #f1f1f1; 
   }
   
-  /* Tytuł kategorii */
+
   .category-title {
     font-size: 18px;
     font-weight: 600;

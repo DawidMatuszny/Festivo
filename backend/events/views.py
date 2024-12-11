@@ -44,6 +44,11 @@ class EventRegistrationCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         user = self.request.user
         event = serializer.validated_data['event']
+
+        if EventRegistration.objects.filter(user=user, event=event).exists():
+            raise serializers.ValidationError({"detail": "Jesteś już zapisany na to wydarzenie."})
+
+
         if event.available_spots > 0:
             serializer.save(user=user)
             event.available_spots -= 1
