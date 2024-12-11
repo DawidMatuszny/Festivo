@@ -86,7 +86,6 @@ function CreateEvents() {
 
     return (
         <div> 
-        <Navbar />
         <div className="form-back">
         <form onSubmit={handleSubmit} className="form-container">
         <h1>Dodawanie wydarzenia</h1>
@@ -98,7 +97,7 @@ function CreateEvents() {
                 placeholder="Nazwa wydarzenia"
                 required
                 />
-            <p className='errors'>{errors.title}</p>
+            {errors.title && <p className="form-error">{errors.title}</p>}
             <input
                 className="form-input"
                 type="datetime-local"
@@ -107,7 +106,7 @@ function CreateEvents() {
                 placeholder="Data"
                 required
                 />
-            <p className='errors'>{errors.event_date}</p>
+            {errors.event_date && <p className="form-error">{errors.event_date}</p>}
             <input
                 className="form-input"
                 type="text"
@@ -116,7 +115,7 @@ function CreateEvents() {
                 placeholder="Miejsce wydarzenia"
                 required
                 />
-            <p className='errors'>{errors.place}</p>
+            {errors.place && <p className="form-error">{errors.place}</p>}
              <input
                 className="form-input"
                 type="text"
@@ -125,7 +124,7 @@ function CreateEvents() {
                 placeholder="Adres wydarzenia"
                 required
                 />
-            <p className='errors'>{errors.address}</p>
+            {errors.address && <p className="form-error">{errors.address}</p>}
             <textarea
                 className="form-input-desc"
                 type="text"
@@ -134,6 +133,7 @@ function CreateEvents() {
                 placeholder="Opis"
                 required
                 />
+            {errors.description && <p className="form-error">{errors.description}</p>}
             <input
                 className="form-input"
                 type="number"
@@ -142,7 +142,8 @@ function CreateEvents() {
                 placeholder="Liczba miejsc"
                 required
                 />
-            <label htmlFor="categories">Tagi</label>
+            {errors.maxparticipants && <p className="form-error">{errors.maxparticipants}</p>}
+            <label htmlFor="categories">Kategoria</label>
             <select
                 className="form-input"
                 value={category} 
