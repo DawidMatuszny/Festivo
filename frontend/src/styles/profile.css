@@ -58,3 +58,107 @@
     color: black;
   }
   
+/* Główne sekcje */
+.profile-page {
+  font-family: 'Arial', sans-serif;
+  margin: 20px;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.calendar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Kontener kalendarza i listy */
+.calendar-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.calendar-wrapper {
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+/* Kalendarz */
+.react-calendar {
+  width: 100%;
+  max-width: 350px;
+  border: none;
+}
+
+.react-calendar__tile--now {
+  background: #ffecb3 !important;
+  border-radius: 8px;
+}
+
+.react-calendar__tile--active {
+  background: hsl(var(--background-secondary-light)) !important;
+  color: white !important;
+  border-radius: 8px;
+}
+
+/* Styl wydarzeń na kafelkach */
+.event-day {
+  background-color: hsl(var(--background)) !important;
+  color: white !important;
+  border-radius: 8px;
+}
+
+.react-calendar__tile--active.event-day {
+  background: hsl(var(--background-secondary-light)) !important;
+  color: white !important;
+}
+
+/* Kontener listy wydarzeń */
+.events-list-container {
+  width: 350px;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+/* Lista wydarzeń */
+.events-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-card {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event-card h4 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.event-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}

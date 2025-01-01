@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'userapi',
     'events',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
