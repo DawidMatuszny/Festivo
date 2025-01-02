@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name', 'last_name', 'password', 'confirm_password')
+        fields = ('email', 'first_name', 'last_name', 'password', 'confirm_password', 'profile_picture')
 
     def validate_password(self, value):
         if len(value) < 8:

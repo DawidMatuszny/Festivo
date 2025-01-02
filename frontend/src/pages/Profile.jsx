@@ -6,15 +6,20 @@ import Calendar from "react-calendar";
 import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css";
 import "react-calendar/dist/Calendar.css";
+import defaultuser from "../assets/images/defaultuser.png";
 
 function Profile() {
   const [email, setEmail] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(null);
   const [events, setEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const { logout } = useUser();
   const { notify } = useNotification();
@@ -26,6 +31,7 @@ function Profile() {
       setEmail(response.data.email);
       setFirstName(response.data.first_name);
       setLastName(response.data.last_name);
+      setProfilePicture(response.data.profile_picture);
     } catch (error) {
       setError("Failed to fetch user profile.");
       notify(error.message);
@@ -36,7 +42,7 @@ function Profile() {
   const fetchUserEvents = async () => {
     try {
       const response = await api.get("/userapi/events/");
-      const mappedEvents = response.data.map(event => ({
+      const mappedEvents = response.data.map((event) => ({
         ...event,
         event_date: new Date(event.event_date),
       }));
@@ -46,6 +52,43 @@ function Profile() {
       notify(error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleProfilePictureUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("profile_picture", file);
+
+      try {
+        const response = await api.post("/userapi/upload-profile-picture/", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        setProfilePicture(response.data.profile_picture);
+        notify("Zdjęcie profilowe zostało zaktualizowane!");
+      } catch (error) {
+        notify("Nie udało się zaktualizować zdjęcia profilowego.");
+      }
+    }
+    fetchUserProfile();
+  };
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post("/userapi/change-password/", {
+        old_password: oldPassword,
+        new_password: newPassword,
+      });
+      notify(response.data.message);
+      setOldPassword("");
+      setNewPassword("");
+      setShowChangePassword(false);
+    } catch (error) {
+      notify(error.response?.data?.error || "Nie udało się zmienić hasła.");
     }
   };
 
@@ -64,7 +107,7 @@ function Profile() {
 
   const tileClassName = ({ date, view }) => {
     if (view === "month") {
-      return events.some(event => event.event_date.toDateString() === date.toDateString())
+      return events.some((event) => event.event_date.toDateString() === date.toDateString())
         ? "event-day"
         : null;
     }
@@ -72,7 +115,9 @@ function Profile() {
 
   const tileContent = ({ date, view }) => {
     if (view === "month") {
-      const dayEvents = events.filter(event => event.event_date.toDateString() === date.toDateString());
+      const dayEvents = events.filter(
+        (event) => event.event_date.toDateString() === date.toDateString()
+      );
       if (dayEvents.length > 0) {
         return <div className="event-dot"></div>;
       }
@@ -82,7 +127,7 @@ function Profile() {
 
   const getEventsForSelectedDate = () => {
     if (!selectedDate) return [];
-    return events.filter(event => event.event_date.toDateString() === selectedDate.toDateString());
+    return events.filter((event) => event.event_date.toDateString() === selectedDate.toDateString());
   };
 
   if (loading) {
@@ -94,8 +139,62 @@ function Profile() {
   return (
     <main id="main" className="profile-page">
       <section className="profile-header">
-        <h1>{firstName} {lastName}</h1>
-        <p>Email: {email}</p>
+        <div className="profile-picture-container">
+          <label htmlFor="profile-picture-upload" className="profile-picture-label">
+            <div className="overlay">
+              <span className="edit-text">Edytuj zdjęcie</span>
+            </div>
+            <img
+              src={profilePicture || defaultuser}
+              alt="Profile"
+              className="profile-picture"
+            />
+          </label>
+          <input
+            id="profile-picture-upload"
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleProfilePictureUpload}
+          />
+        </div>
+        <h1>
+          {firstName} {lastName}
+        </h1>
+        <p>{email}</p>
+        <button
+          className="btn btn-change-password"
+          onClick={() => setShowChangePassword(!showChangePassword)}
+        >
+          Zmień hasło
+        </button>
+        {showChangePassword && (
+          <div className="change-password-form-container">
+          <form className="change-password-form" onSubmit={handlePasswordChange}>
+            <div className="form-group">
+              <label htmlFor="old-password">Obecne hasło</label>
+              <input
+                type="password"
+                id="old-password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="new-password">Nowe hasło</label>
+              <input
+                type="password"
+                id="new-password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="btn">Zapisz zmiany</button>
+          </form>
+          </div>
+        )}
       </section>
 
       <section className="calendar-section">
@@ -109,15 +208,17 @@ function Profile() {
             />
           </div>
           <div className="events-list-container">
-            <h3>Wydarzenia na {selectedDate ? selectedDate.toLocaleDateString() : "wybrany dzień"}</h3>
+            <h3>
+              Wydarzenia na {selectedDate ? selectedDate.toLocaleDateString() : "wybrany dzień"}
+            </h3>
             {eventsForSelectedDate.length > 0 ? (
               <ul className="events-list">
-                {eventsForSelectedDate.map(event => (
+                {eventsForSelectedDate.map((event) => (
                   <li
                     key={event.id}
                     className="event-card"
-                    onClick={() => handleEventClick(event.id)} // Obsługa kliknięcia
-                    style={{ cursor: "pointer" }} // Styl kursora
+                    onClick={() => handleEventClick(event.id)}
+                    style={{ cursor: "pointer" }}
                   >
                     <h4>{event.title}</h4>
                     <p>{event.event_date.toLocaleTimeString()}</p>

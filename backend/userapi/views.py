@@ -11,6 +11,8 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from events.serializers import EventSerializer
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -57,3 +59,34 @@ class UserEventsView(APIView):
         event_objects = Event.objects.filter(id__in=events)
         serializer = EventSerializer(event_objects, many=True)
         return Response(serializer.data)
+
+
+class UploadProfilePictureView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        user.profile_picture = request.FILES['profile_picture']
+        user.save()
+        return Response({"profile_picture": user.profile_picture.url})
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
+
+        if not user.check_password(old_password):
+            return Response({"error": "Nieprawidłowe obecne hasło."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            validate_password(new_password, user=user)
+        except ValidationError as e:
+            return Response({"error": e.messages}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.set_password(new_password)
+        user.save()
+
+        return Response({"message": "Hasło zostało zmienione pomyślnie."}, status=status.HTTP_200_OK)

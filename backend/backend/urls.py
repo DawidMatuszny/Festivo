@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from userapi.views import CreateUserView, LoginUserView, LoggedUserDetailView, UserEventsView
+from userapi.views import CreateUserView, LoginUserView, LoggedUserDetailView, UserEventsView, UploadProfilePictureView, ChangePasswordView
 from events.views import EventCreateView, EventListView, EventDetailView, CategoriesListView, EventRegistrationCreateView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.conf import settings
@@ -20,6 +20,8 @@ urlpatterns = [
     path('userapi/profile/', LoggedUserDetailView.as_view(), name='profile'),
     path('event/register/', EventRegistrationCreateView.as_view(), name='register_for_event' ),
     path('userapi/events/', UserEventsView.as_view(), name='user-events'),
+    path('userapi/upload-profile-picture/', UploadProfilePictureView.as_view(), name='upload-picture'),
+    path('userapi/change-password/', ChangePasswordView.as_view(), name='change-password'),
 ]
 
 if settings.DEBUG:
