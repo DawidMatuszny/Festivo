@@ -1,10 +1,10 @@
 .profile-page {
     padding: 20px;
-    font-family: Arial, sans-serif;
   }
   
   .profile-header {
     margin-bottom: 40px;
+    text-align: center;
     background-color: #f5f5f5;
     padding: 20px;
     border-radius: 8px;
@@ -20,53 +20,6 @@
     color: #555;
   }
   
-  .events-section {
-    margin-bottom: 40px;
-  }
-  
-  .events-section h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .events-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .event-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .event-card h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
-  }
-  
-  .event-card p {
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
-  
-  .event-link {
-    text-decoration: none;
-    color: black;
-  }
-  
-/* Główne sekcje */
-.profile-page {
-  margin: 20px;
-}
-
-.profile-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
 
 .profile-picture-container {
   position: relative;
@@ -99,7 +52,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Półprzezroczyste tło */
+  background-color: rgba(0, 0, 0, 0.5); 
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -111,7 +64,7 @@
 
 
 .profile-picture-container:hover .overlay {
-  opacity: 1; /* Pokazuje overlay przy najechaniu */
+  opacity: 1; 
 }
 
 .edit-text {
@@ -128,7 +81,7 @@
   align-items: center;
 }
 
-/* Kontener kalendarza i listy */
+
 .calendar-container {
   display: flex;
   flex-wrap: wrap;
@@ -146,7 +99,7 @@
   background-color: #ffffff;
 }
 
-/* Kalendarz */
+
 .react-calendar {
   width: 100%;
   max-width: 350px;
@@ -164,7 +117,7 @@
   border-radius: 8px;
 }
 
-/* Styl wydarzeń na kafelkach */
+
 .event-day {
   background-color: hsl(var(--background)) !important;
   color: white !important;
@@ -176,7 +129,7 @@
   color: white !important;
 }
 
-/* Kontener listy wydarzeń */
+
 .events-list-container {
   width: 350px;
   max-height: 400px;
@@ -188,7 +141,7 @@
   background-color: #f9f9f9;
 }
 
-/* Lista wydarzeń */
+
 .events-list {
   list-style: none;
   padding: 0;
@@ -216,14 +169,14 @@
   color: #666;
 }
 
-/* Styl dla przycisku "Zmień hasło" */
+
 .btn-change-password {
   background-color: hsl(var(--background-secondary-light));
   color: white;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
   margin-top: 20px;
   transition: background-color 0.3s ease;

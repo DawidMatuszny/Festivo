@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import CustomUser
 from events.models import Event
@@ -75,16 +75,16 @@ class ChangePasswordView(APIView):
 
     def post(self, request):
         user = request.user
-        old_password = request.data.get("old_password")
-        new_password = request.data.get("new_password")
+        serializer = ChangePasswordSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        old_password = serializer.validated_data['old_password']
+        new_password = serializer.validated_data['new_password']
 
         if not user.check_password(old_password):
             return Response({"error": "Nieprawidłowe obecne hasło."}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            validate_password(new_password, user=user)
-        except ValidationError as e:
-            return Response({"error": e.messages}, status=status.HTTP_400_BAD_REQUEST)
 
         user.set_password(new_password)
         user.save()

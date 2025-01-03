@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css";
 import "react-calendar/dist/Calendar.css";
 import defaultuser from "../assets/images/defaultuser.png";
+import { ToastContainer, toast } from "react-toastify";
 
 function Profile() {
   const [email, setEmail] = useState(null);
@@ -20,6 +21,7 @@ function Profile() {
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const { logout } = useUser();
   const { notify } = useNotification();
@@ -78,17 +80,28 @@ function Profile() {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast.error("Nowe hasło i potwierdzenie hasła muszą być takie same.");
+      return;
+    }
+  
     try {
       const response = await api.post("/userapi/change-password/", {
         old_password: oldPassword,
         new_password: newPassword,
       });
-      notify(response.data.message);
+      toast.success(response.data.message);
       setOldPassword("");
       setNewPassword("");
+      setConfirmPassword("");
       setShowChangePassword(false);
     } catch (error) {
-      notify(error.response?.data?.error || "Nie udało się zmienić hasła.");
+      const errorMessage = error.response?.data?.error || "Nie udało się zmienić hasła.";
+      if (Array.isArray(error.response?.data?.error)) {
+        error.response.data.error.forEach((msg) => toast.error(msg));
+      } else {
+        toast.error(errorMessage);
+      }
     }
   };
 
@@ -127,7 +140,9 @@ function Profile() {
 
   const getEventsForSelectedDate = () => {
     if (!selectedDate) return [];
-    return events.filter((event) => event.event_date.toDateString() === selectedDate.toDateString());
+    return events
+      .filter((event) => event.event_date.toDateString() === selectedDate.toDateString())
+      .sort((a, b) => a.event_date - b.event_date); 
   };
 
   if (loading) {
@@ -170,29 +185,39 @@ function Profile() {
         </button>
         {showChangePassword && (
           <div className="change-password-form-container">
-          <form className="change-password-form" onSubmit={handlePasswordChange}>
-            <div className="form-group">
-              <label htmlFor="old-password">Obecne hasło</label>
-              <input
-                type="password"
-                id="old-password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="new-password">Nowe hasło</label>
-              <input
-                type="password"
-                id="new-password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-              />
-            </div>
-            <button type="submit" className="btn">Zapisz zmiany</button>
-          </form>
+            <form className="change-password-form" onSubmit={handlePasswordChange}>
+              <div className="form-group">
+                <label htmlFor="old-password">Obecne hasło</label>
+                <input
+                  type="password"
+                  id="old-password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="new-password">Nowe hasło</label>
+                <input
+                  type="password"
+                  id="new-password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="confirm-password">Potwierdź nowe hasło</label>
+                <input
+                  type="password"
+                  id="confirm-password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="btn">Zapisz zmiany</button>
+            </form>
           </div>
         )}
       </section>
@@ -229,6 +254,7 @@ function Profile() {
               <p>Brak wydarzeń tego dnia.</p>
             )}
           </div>
+          <ToastContainer position="top-center"/>
         </div>
       </section>
     </main>
