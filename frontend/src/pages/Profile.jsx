@@ -96,6 +96,7 @@ function Profile() {
       setConfirmPassword("");
       setShowChangePassword(false);
     } catch (error) {
+      console.log(error)
       const errorMessage = error.response?.data?.error || "Nie udało się zmienić hasła.";
       if (Array.isArray(error.response?.data?.error)) {
         error.response.data.error.forEach((msg) => toast.error(msg));
