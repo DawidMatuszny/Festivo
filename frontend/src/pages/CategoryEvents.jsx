@@ -14,7 +14,7 @@ const CategoryEvents = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/events/?category=${category}`);
-        const upcomingEvents = response.data.filter(event => new Date(event.event_date) > new Date()); // Filtrujemy tylko przyszłe wydarzenia
+        const upcomingEvents = response.data.filter(event => new Date(event.event_date) > new Date());
         setEvents(upcomingEvents);
         setLoading(false);
       } catch (err) {
@@ -29,7 +29,12 @@ const CategoryEvents = () => {
     <div id='main'>
     <div className="event-container">
       {events.map((event) => (
-        <a key={event.id} href={`/event/${event.id}`} className="event-card" style={{ textDecoration: 'none' }}>
+        <a 
+          key={event.id} 
+          href={`/event/${event.id}`} 
+          className="event-card" 
+          style={{ textDecoration: 'none' }}
+        >
           <div
             className="event-image"
             style={{

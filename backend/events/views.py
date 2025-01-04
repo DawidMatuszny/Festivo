@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
+from datetime import datetime
 
 class EventCreateView(generics.CreateAPIView):
     queryset = Event.objects.all()
@@ -58,3 +59,34 @@ class EventRegistrationCreateView(generics.ListCreateAPIView):
             event.save()
         else:
             raise serializers.ValidationError({"detail": "Brak dostępnych miejsc na to wydarzenie."})
+
+
+class EventSearchView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        query = request.query_params.get('q', '').strip()
+        address = request.query_params.get('address', '').strip()
+        date_from = request.query_params.get('date_from', '').strip()
+        date_to = request.query_params.get('date_to', '').strip()
+
+        events = Event.objects.all()
+
+        if query:
+            events = events.filter(title__icontains=query)
+
+        if address:
+            events = events.filter(address__icontains=address)
+
+        if date_from:
+            events = events.filter(event_date__gte=datetime.strptime(date_from, "%Y-%m-%d"))
+        if date_to:
+            events = events.filter(event_date__lte=datetime.strptime(date_to, "%Y-%m-%d"))
+
+        events = events.filter(event_date__gte=datetime.now())
+
+        events = events.order_by('event_date')
+
+        serializer = EventSerializer(events, many=True, context={'request': request})
+        return Response(serializer.data)
+

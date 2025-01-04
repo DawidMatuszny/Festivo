@@ -8,6 +8,7 @@ import CreateEvents from "./pages/CreateEvent";
 import Events from "./pages/Events";
 import ShowEvent from "./pages/ShowEvent";
 import Profile from "./pages/Profile";
+import Search from "./pages/Search";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import CategoryEvents from './pages/CategoryEvents';
@@ -37,6 +38,7 @@ function App() {
           <Route path="/event/:id" element={<ShowEvent />} />
           <Route path="/events/:category" element={<CategoryEvents />} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/search" element={<Search />} />
         </Routes>
         </NotificationProvider>
       </UserProvider>
