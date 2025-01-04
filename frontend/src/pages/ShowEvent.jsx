@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom';
 import axios from "axios";
 import api from "../api";
 import "../styles/EventDetail.css";
+import defaultimage from '../assets/images/image1.jpg';
+import { ToastContainer, toast } from "react-toastify";
 
 const ShowEvent = () => {
     const { id } = useParams();
     const [eventData, setEventData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [registrationError, setRegistrationError] = useState(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -30,10 +31,10 @@ const ShowEvent = () => {
     const handleRegister = async () => {
         try {
             await api.post(`/event/register/`, { event: id });
-            alert("Rejestracja zakończona sukcesem!");
+            toast.success("Rejestracja zakończona sukcesem!");
         } catch (error) {
             const errorMsg = error.response?.data?.detail || "Wystąpił błąd podczas rejestracji.";
-            setRegistrationError(errorMsg);
+            toast.error(errorMsg);
         }
     };
 
@@ -44,40 +45,36 @@ const ShowEvent = () => {
     return (
         <div id='main'>
             <div className="center-container">
-            <div className="event-detail-container">
-                <div className="event-header">
-                    <h1 className="event-title">{eventData.title}</h1>
-                    <p className="event-date">
-                        {new Date(eventData.event_date).toLocaleString()}
-                    </p>
-                </div>
+                <div className="event-detail-container">
+                    <div className="event-header">
+                        <h1 className="event-title">{eventData.title}</h1>
+                    </div>
 
-                <div className="event-image-container">
-                    <img src={eventData.image} alt={eventData.title} className="event-detail-image" />
-                </div>
+                    <div className="event-image-container">
+                        <img src={eventData.image || defaultimage} alt={eventData.title} className="event-detail-image" />
+                    </div>
 
-                <div className="event-description">
-                    <h2>Opis wydarzenia</h2>
-                    <p>{eventData.description}</p>
-                </div>
+                    <div className="event-descriptions">
+                        <p>{eventData.description}</p>
+                    </div>
 
-                <div className="event-details">
-                    <h3>Szczegóły wydarzenia:</h3>
-                    <ul>
-                        <li><strong>Data:</strong> {new Date(eventData.event_date).toLocaleDateString()}</li>
-                        <li><strong>Godzina:</strong> {new Date(eventData.event_date).toLocaleTimeString()}</li>
-                        <li><strong>Miejsce:</strong> {eventData.place}</li>
-                        <li><strong>Adres:</strong> {eventData.address}</li>
-                        <li><strong>Cena:</strong> {eventData.price ? `${eventData.price} PLN` : "Bezpłatne"}</li>
-                    </ul>
-                </div>
+                    <div className="event-details">
+                        <h3>Szczegóły wydarzenia:</h3>
+                        <ul>
+                            <li><strong>Data:</strong> {new Date(eventData.event_date).toLocaleDateString()}</li>
+                            <li><strong>Godzina:</strong> {new Date(eventData.event_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
+                            <li><strong>Miejsce:</strong> {eventData.place}</li>
+                            <li><strong>Adres:</strong> {eventData.address}</li>
+                            <li><strong>Cena:</strong> {eventData.price ? `${eventData.price} PLN` : "Bezpłatne"}</li>
+                        </ul>
+                    </div>
 
-                <div className="event-registration">
-                    <button className="register-button" onClick={handleRegister}>Zapisz się na wydarzenie!</button>
-                    {registrationError && <p className="registration-error">{registrationError}</p>}
+                    <div className="event-registration">
+                        <button className="register-button" onClick={handleRegister}>Zapisz się na wydarzenie!</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        <ToastContainer position="top-center"/>
         </div>
     );
 };

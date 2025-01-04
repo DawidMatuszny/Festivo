@@ -1,8 +1,5 @@
-import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
 import "../styles/Main.css"
-import { useState, useEffect } from "react";
-import { ACCESS_TOKEN } from "../constants";
 import { AiFillHome, AiFillCalendar, AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
 import { MdAccountCircle } from "react-icons/md";
 import { SiSimplelogin } from "react-icons/si";

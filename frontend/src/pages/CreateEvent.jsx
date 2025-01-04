@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/Form.css";
 import api from "../api";
-import Navbar from "../components/Navbar";
 import { useUser } from "../UserContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,14 +37,13 @@ function CreateEvents() {
     }, []);
     
     const handleFileChange = (e) => {
-        setImage(e.target.files[0]); // Przechowuje wybrany plik
+        setImage(e.target.files[0]);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        // Tworzymy formData, które pozwala na przesyłanie plików
         const formData = new FormData();
         formData.append("title", title);
         formData.append("event_date", eventdate);
@@ -56,18 +54,27 @@ function CreateEvents() {
         formData.append("category", category);
 
         if (image) {
-            formData.append("image", image); // Dodajemy plik obrazu
+            formData.append("image", image);
         }
 
         try {
             const res = await api.post("events/create/", formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data", // Ważne, aby ustawić ten nagłówek
+                    "Content-Type": "multipart/form-data",
                 },
             });
             toast.success("Wydarzenie zostało pomyślnie dodane!");
-            // Możesz przekierować użytkownika na inną stronę, np. na listę wydarzeń
-            navigate("/events"); 
+
+            setTitle("");
+            setEventdate("");
+            setPlace("");
+            setAddress("");
+            setDescription("");
+            setMaxparticipants(0);
+            setCategory(availablecategories.length > 0 ? availablecategories[0].id : "");
+            setImage(null);
+            setErrors({});
+            
         } catch (error) {
             if (error.response && error.response.data) {
                 const backendErrors = error.response.data;
@@ -155,16 +162,16 @@ function CreateEvents() {
                     </option>
                 ))}
             </select>
-                    <input
-                        className="form-input"
-                        type="file"
-                        onChange={handleFileChange}
-                    />
-                    <p className="errors">{errors.image}</p>
+            <input
+                className="form-input"
+                type="file"
+                onChange={handleFileChange}
+            />
+            <p className="errors">{errors.image}</p>
 
-                    <button className="form-button" type="submit" disabled={loading}>
-                        {loading ? "Dodawanie..." : "Dodaj"}
-                    </button>
+            <button className="form-button" type="submit" disabled={loading}>
+                {loading ? "Dodawanie..." : "Dodaj"}
+            </button>
         </form>
     </div>
     <ToastContainer position="top-center"/>

@@ -9,7 +9,6 @@ import Events from "./pages/Events";
 import ShowEvent from "./pages/ShowEvent";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Test from "./pages/test";
 import Navbar from "./components/Navbar";
 import CategoryEvents from './pages/CategoryEvents';
 import "./styles/main.css"
@@ -35,7 +34,6 @@ function App() {
           <Route path="*" element={<NotFound />} />
           <Route path="/events/create" element={<ProtectedRoute><CreateEvents /></ProtectedRoute>} />
           <Route path="/events" element={<Events />} />
-          <Route path="/test" element={<Test />} />
           <Route path="/event/:id" element={<ShowEvent />} />
           <Route path="/events/:category" element={<CategoryEvents />} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />

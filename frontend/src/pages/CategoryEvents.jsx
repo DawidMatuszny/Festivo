@@ -14,7 +14,8 @@ const CategoryEvents = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/events/?category=${category}`);
-        setEvents(response.data);
+        const upcomingEvents = response.data.filter(event => new Date(event.event_date) > new Date()); // Filtrujemy tylko przyszłe wydarzenia
+        setEvents(upcomingEvents);
         setLoading(false);
       } catch (err) {
         setError('Nie udało się pobrać wydarzeń.');
@@ -36,7 +37,10 @@ const CategoryEvents = () => {
           ></div>
           <div className="event-description">
             <h3>{event.title}</h3>
-            <p>{event.description}</p>
+            <p>{event.address}</p>
+            </div>
+          <div className='event-date'>
+            <p>{new Date(event.event_date).toLocaleDateString()}</p>
           </div>
         </a>
       ))}

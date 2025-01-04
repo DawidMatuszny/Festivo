@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css";
 import LoadingIndicator from "./LoadingIndicator";
@@ -131,6 +131,16 @@ function Form({ route, method }) {
       <button className="form-button" type="submit" disabled={loading}>
         {formTitle}
       </button>
+      {isLogin && (
+          <p className="form-register-link">
+            <Link to="/register" className="link-no-underline">Nie masz konta? Zarejestruj się!</Link>
+          </p>
+        )}
+        {!isLogin && (
+          <p className="form-register-link">
+            <Link to="/login" className="link-no-underline">Masz już konto? Zaloguj się!</Link>
+          </p>
+        )}
       </form>
       <ToastContainer position="top-center"/>
     </div>

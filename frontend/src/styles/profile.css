@@ -148,7 +148,7 @@
   margin: 0;
 }
 
-.event-card {
+.event-card-p {
   margin-bottom: 15px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -157,13 +157,13 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
-.event-card h4 {
+.event-card-p h4 {
   margin: 0 0 5px;
   font-size: 16px;
   color: #333;
 }
 
-.event-card p {
+.event-card-p p {
   margin: 0;
   font-size: 14px;
   color: #666;
@@ -194,7 +194,6 @@
   flex-direction: column;
 }
 
-/* Styl dla formularza zmiany hasła */
 .change-password-form {
   margin-top: 20px;
   padding: 20px;
@@ -224,7 +223,7 @@
 }
 
 .change-password-form .btn {
-  background-color: #28a745;
+  background-color: hsl(var(--background));
   color: white;
   border: none;
   padding: 10px 20px;
@@ -235,5 +234,5 @@
 }
 
 .change-password-form .btn:hover {
-  background-color: #218838;
+  background-color: hsl(var(--background-secondary-light));
 }

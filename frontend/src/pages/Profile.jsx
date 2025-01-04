@@ -96,7 +96,6 @@ function Profile() {
       setConfirmPassword("");
       setShowChangePassword(false);
     } catch (error) {
-      console.log(error)
       const errorMessage = error.response?.data?.error || "Nie udało się zmienić hasła.";
       if (Array.isArray(error.response?.data?.error)) {
         error.response.data.error.forEach((msg) => toast.error(msg));
@@ -242,12 +241,12 @@ function Profile() {
                 {eventsForSelectedDate.map((event) => (
                   <li
                     key={event.id}
-                    className="event-card"
+                    className="event-card-p"
                     onClick={() => handleEventClick(event.id)}
                     style={{ cursor: "pointer" }}
                   >
                     <h4>{event.title}</h4>
-                    <p>{event.event_date.toLocaleTimeString()}</p>
+                    <p>{event.event_date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                   </li>
                 ))}
               </ul>

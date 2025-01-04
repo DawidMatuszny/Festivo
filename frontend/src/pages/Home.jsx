@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../styles/home.css';
 import image1 from '../assets/images/image1.jpg';
 import logo from '../assets/images/logo.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -10,13 +11,14 @@ const Home = () => {
   const [events, setEvents] = useState([]);
   const sliderRef = useRef(null);
   const totalItems = 10; 
+  const navigate = useNavigate();
 
   const fetchEvents = async () => {
     try {
       const response = await axios.get('http://127.0.0.1:8000/events/');
       const sortedEvents = response.data
-        .filter(event => new Date(event.event_date) > new Date()) // Only future events
-        .sort((a, b) => new Date(a.event_date) - new Date(b.event_date)) // Sort by date
+        .filter(event => new Date(event.event_date) > new Date()) 
+        .sort((a, b) => new Date(a.event_date) - new Date(b.event_date))
         .slice(0, totalItems);
       setEvents(sortedEvents);
     } catch (error) {
@@ -70,6 +72,11 @@ const Home = () => {
       window.removeEventListener('resize', updateVisibleItems); 
     };
   }, []);
+
+  const handleEventClick = (eventId) => {
+    navigate(`/event/${eventId}`); 
+  };
+
   return (
     <div id="main">
   <div 
@@ -87,10 +94,10 @@ const Home = () => {
     </button>
     <div className="slider" ref={sliderRef}>
       {events.map((event) => (
-        <div className="item" key={event.id}>
+        <div className="item" key={event.id}  onClick={() => handleEventClick(event.id)} style={{ cursor: "pointer" }}>
           <div className="sliders-description">
             <h3>{event.title}</h3>
-            <p><strong>Data:</strong> {new Date(event.event_date).toLocaleString()}</p>
+            <p><strong>Data:</strong> {new Date(event.event_date).toLocaleDateString()}</p>
             <p><strong>Miejsce:</strong> {event.address}</p>
           </div>
           <div

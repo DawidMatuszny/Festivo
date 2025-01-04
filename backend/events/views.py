@@ -5,6 +5,7 @@ from .serializers import EventSerializer, CategoriesSerializer, EventRegistratio
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.utils import timezone
 
 class EventCreateView(generics.CreateAPIView):
     queryset = Event.objects.all()
@@ -45,9 +46,11 @@ class EventRegistrationCreateView(generics.ListCreateAPIView):
         user = self.request.user
         event = serializer.validated_data['event']
 
+        if event.event_date < timezone.now():
+            raise serializers.ValidationError({"detail": "Nie można zapisać się na wydarzenie, które już się odbyło."})
+
         if EventRegistration.objects.filter(user=user, event=event).exists():
             raise serializers.ValidationError({"detail": "Jesteś już zapisany na to wydarzenie."})
-
 
         if event.available_spots > 0:
             serializer.save(user=user)

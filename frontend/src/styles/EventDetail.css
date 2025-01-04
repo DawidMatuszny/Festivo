@@ -39,18 +39,16 @@
   border-radius: 8px;
 }
 
-.event-description {
-  margin-bottom: 20px;
+.event-descriptions {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.event-description h2 {
-  font-size: 1.8rem;
-  color: #444;
-}
-
-.event-description p {
-  font-size: 1.1rem;
-  color: #666;
+.event-descriptions p {
+  font-size: 16px;
+  color: #000000;
 }
 
 .event-details h3 {
@@ -79,18 +77,19 @@
 }
 
 .register-button {
-  padding: 10px 20px;
-  font-size: 1.2rem;
-  color: #fff;
-  background-color: #bdab09b7;
+  width: 50%;
+  padding: 10px;
+  margin: 20px 0;
+  background: hsl(var(--background));
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .register-button:hover {
-  background-color: #0056b3;
+  background-color: hsl(var(--background-secondary-light));
 }
 
 .registration-error {
