@@ -95,3 +95,12 @@ class ChangePasswordView(APIView):
         user.save()
 
         return Response({"message": "Hasło zostało zmienione pomyślnie."}, status=status.HTTP_200_OK)
+    
+class UserCreatedEventsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        events = Event.objects.filter(created_by=user)
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data)

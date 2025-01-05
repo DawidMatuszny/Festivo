@@ -97,8 +97,8 @@ const Home = () => {
         <div className="item" key={event.id}  onClick={() => handleEventClick(event.id)} style={{ cursor: "pointer" }}>
           <div className="sliders-description">
             <h3>{event.title}</h3>
-            <p><strong>Data:</strong> {new Date(event.event_date).toLocaleDateString()}</p>
-            <p><strong>Miejsce:</strong> {event.address}</p>
+            <p>{event.address}</p>
+            <p> {new Date(event.event_date).toLocaleDateString()}</p>
           </div>
           <div
             className="image"

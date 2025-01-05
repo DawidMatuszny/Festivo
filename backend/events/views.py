@@ -4,9 +4,9 @@ from .models import Event, Categories, EventRegistration
 from .serializers import EventSerializer, CategoriesSerializer, EventRegistrationSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from django.utils import timezone
 from datetime import datetime
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 
 class EventCreateView(generics.CreateAPIView):
     queryset = Event.objects.all()
@@ -88,5 +88,12 @@ class EventSearchView(APIView):
         events = events.order_by('event_date')
 
         serializer = EventSerializer(events, many=True, context={'request': request})
-        return Response(serializer.data)
+        return Response(serializer.data)    
 
+class EventEditDeleteView(RetrieveUpdateDestroyAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Event.objects.filter(created_by=user)
