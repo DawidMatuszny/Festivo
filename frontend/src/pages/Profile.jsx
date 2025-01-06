@@ -178,10 +178,17 @@ function Profile() {
         </h1>
         <p>{email}</p>
         <button
-          className="btn btn-change-password"
+          className="btn-prof"
           onClick={() => setShowChangePassword(!showChangePassword)}
         >
           Zmień hasło
+        </button>
+        <button
+          className="btn-prof"
+          onClick={() => navigate('/my-events')}
+          
+        >
+          Moje wydarzenia
         </button>
         {showChangePassword && (
           <div className="change-password-form-container">

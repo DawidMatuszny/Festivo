@@ -170,7 +170,7 @@
 }
 
 
-.btn-change-password {
+.btn-prof {
   background-color: hsl(var(--background-secondary-light));
   color: white;
   border: none;
@@ -182,7 +182,7 @@
   transition: background-color 0.3s ease;
 }
 
-.btn-change-password:hover {
+.btn-prof:hover {
   background-color: hsl(var(--background-secondary-dark));
 }
 

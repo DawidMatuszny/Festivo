@@ -3,6 +3,7 @@ import api from "../api";
 import { Link } from "react-router-dom";
 import "../styles/events.css";
 import { ToastContainer, toast } from "react-toastify";
+import image1 from "../assets/images/image1.jpg";
 
 
 const UserEvents = () => {
@@ -31,15 +32,29 @@ const UserEvents = () => {
       <h1>Twoje wydarzenia</h1>
       <div className="event-container">
         {events.map((event) => (
-          <div key={event.id} className="event-card">
-            <h3>{event.title}</h3>
-            <p>{event.address}</p>
-            <p>{new Date(event.event_date).toLocaleDateString()}</p>
-            <Link to={`/edit-event/${event.id}`}>Edytuj</Link>
-          </div>
+          <Link
+            key={event.id}
+            to={`/edit-event/${event.id}`}
+            className="event-card"
+            style={{ textDecoration: "none" }}
+          >
+            <div
+              className="event-image"
+              style={{
+                backgroundImage: `url(${event.image ? event.image : image1})`,
+              }}
+            ></div>
+            <div className="event-description">
+              <h3>{event.title}</h3>
+              <p>{event.address}</p>
+            </div>
+            <div className="event-date">
+              <p>{new Date(event.event_date).toLocaleDateString()}</p>
+            </div>
+          </Link>
         ))}
       </div>
-      <ToastContainer position="top-center"/>
+      <ToastContainer position="top-center" />
     </div>
   );
 };
