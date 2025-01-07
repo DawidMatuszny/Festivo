@@ -34,7 +34,7 @@ const UserEvents = () => {
         {events.map((event) => (
           <Link
             key={event.id}
-            to={`/edit-event/${event.id}`}
+            to={`/my-event/${event.id}`}
             className="event-card"
             style={{ textDecoration: "none" }}
           >

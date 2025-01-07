@@ -11,9 +11,8 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from events.serializers import EventSerializer
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from rest_framework import serializers
+
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -104,3 +103,4 @@ class UserCreatedEventsView(APIView):
         events = Event.objects.filter(created_by=user)
         serializer = EventSerializer(events, many=True, context={'request': request})
         return Response(serializer.data)
+    

@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from django.utils import timezone
 from datetime import datetime
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.generics import get_object_or_404
 
 class EventCreateView(generics.CreateAPIView):
     queryset = Event.objects.all()
@@ -97,3 +98,25 @@ class EventEditDeleteView(RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         return Event.objects.filter(created_by=user)
+    
+
+class EventDetailWithRegistrationsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, event_id):
+        event = get_object_or_404(Event, id=event_id, created_by=request.user)
+        registrations = event.participants.all() 
+        participants = [
+            {
+                "id": registration.user.id,
+                "email": registration.user.email,
+                "first_name": registration.user.first_name,
+                "last_name": registration.user.last_name,
+            }
+            for registration in registrations
+        ]
+        event_serializer = EventSerializer(event, context={"request": request})
+        return Response({
+            "event": event_serializer.data,
+            "participants": participants
+        })

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from userapi.views import CreateUserView, LoginUserView, LoggedUserDetailView, UserEventsView, UploadProfilePictureView, ChangePasswordView, UserCreatedEventsView
-from events.views import EventCreateView, EventListView, EventDetailView, CategoriesListView, EventRegistrationCreateView, EventSearchView, EventEditDeleteView
+from events.views import EventCreateView, EventListView, EventDetailView, CategoriesListView, EventRegistrationCreateView, EventSearchView, EventEditDeleteView, EventDetailWithRegistrationsView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -25,6 +25,7 @@ urlpatterns = [
     path('event/search/', EventSearchView.as_view(), name='event-search'),
     path('userapi/created-events/', UserCreatedEventsView.as_view(), name='user-events'),
     path('events/edit/<int:pk>/', EventEditDeleteView.as_view(), name='edit-delete-event'),
+    path('event/my-event/<int:event_id>/', EventDetailWithRegistrationsView.as_view(), name='my-event-detail'),
 ]
 
 if settings.DEBUG:
