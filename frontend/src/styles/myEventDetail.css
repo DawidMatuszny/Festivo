@@ -1,0 +1,60 @@
+.myevent-contener {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto; 
+  }
+
+.myevent-detail-card,
+.participant-list-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  padding: 20px;
+  margin-bottom: 20px; 
+}
+
+.myevent-detail-card h1,
+.participant-list-card h2 {
+  margin-bottom: 20px;
+}
+
+.edit-button {
+  background: hsl(var(--background-secondary));
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%; 
+  text-align: center;
+}
+
+.edit-button:hover {
+  background: hsl(var(--background-secondary-light));
+}
+
+.participant-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.participant-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.participant-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.participant-info p {
+  margin: 0;
+}

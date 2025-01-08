@@ -112,6 +112,7 @@ class EventDetailWithRegistrationsView(APIView):
                 "email": registration.user.email,
                 "first_name": registration.user.first_name,
                 "last_name": registration.user.last_name,
+                "profile_picture": request.build_absolute_uri(registration.user.profile_picture.url) if registration.user.profile_picture else None,
             }
             for registration in registrations
         ]
