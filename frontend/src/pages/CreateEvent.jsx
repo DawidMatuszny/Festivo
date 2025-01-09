@@ -92,7 +92,7 @@ function CreateEvents() {
     };
 
     return (
-        <div> 
+        <div id="main"> 
         <div className="form-back">
         <form onSubmit={handleSubmit} className="form-container">
         <h1>Dodawanie wydarzenia</h1>

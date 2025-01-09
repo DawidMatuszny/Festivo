@@ -14,6 +14,7 @@ const EditEvent = () => {
     const fetchEvent = async () => {
       try {
         const response = await api.get(`/event/${id}/`);
+        console.log(response.data);
         setEvent(response.data);
       } catch (err) {
         setError("Nie udało się pobrać szczegółów wydarzenia.");
@@ -33,53 +34,66 @@ const EditEvent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.put(`/events/edit/${id}/`, event,  {
+      const { image, ...dataToUpdate } = event;
+      console.log("Sending data:", event);
+      await api.put(`/events/edit/${id}/`, dataToUpdate,  {
         headers: {
             "Content-Type": "multipart/form-data",
         },
     });
       navigate("/my-events");
     } catch (error) {
+      console.log(error)
       toast.error("Nie udało się zaktualizować wydarzenia.");
     }
   };
 
   if (loading) return <p>Ładowanie...</p>;
 
+
   return (
     <div id="main">
-      <h1>Edytuj wydarzenie</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Tytuł:</label>
-          <input
-            type="text"
-            name="title"
-            value={event.title}
-            onChange={handleInputChange}
-          />
+      <div className="myevent-container">
+        <div className="myevent-detail-card">
+          <h1>Edytuj wydarzenie</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Tytuł</label>
+              <input
+                type="text"
+                name="title"
+                value={event.title}
+                onChange={handleInputChange}
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label>Adres</label>
+              <input
+                type="text"
+                name="address"
+                value={event.address}
+                onChange={handleInputChange}
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label>Data wydarzenia</label>
+              <input
+                type="datetime-local"
+                name="event_date"
+                value={new Date(event.event_date).toISOString().slice(0, 16)}
+                onChange={handleInputChange}
+                className="form-input"
+              />
+            </div>
+            <button type="submit" className="edit-button">
+              Zapisz zmiany
+            </button>
+          </form>
         </div>
-        <div>
-          <label>Adres:</label>
-          <input
-            type="text"
-            name="address"
-            value={event.address}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Data wydarzenia:</label>
-          <input
-            type="datetime-local"
-            name="event_date"
-            value={new Date(event.event_date).toISOString().slice(0, 16)}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button type="submit">Zapisz zmiany</button>
-      </form>
-      <ToastContainer position="top-center"/>
+      </div>
+      <ToastContainer position="top-center" />
     </div>
   );
 };

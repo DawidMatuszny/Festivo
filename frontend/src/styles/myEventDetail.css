@@ -1,4 +1,4 @@
-.myevent-contener {
+.myevent-container {
     padding: 20px;
     max-width: 600px;
     margin: 0 auto; 
@@ -57,4 +57,26 @@
 
 .participant-info p {
   margin: 0;
+}
+
+.myevent-detail-card h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  width: 200px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 5px;
 }

@@ -33,19 +33,19 @@ const MyEventDetail = () => {
 
   return (
     <div id="main">
-      <div className="myevent-contener">
+      <div className="myevent-container">
         <div className="myevent-detail-card">
           <h1>{event.title}</h1>
           <p><strong>Adres:</strong> {event.address}</p>
           <p><strong>Data:</strong> {new Date(event.event_date).toLocaleDateString()}</p>
-          <p><strong>Miejsca:</strong> {event.available_spots}</p>
+          <p><strong>Wolne miejsca:</strong> {event.available_spots}</p>
           <button className="edit-button" onClick={() => navigate(`/edit-event/${id}`)}>
             Edytuj wydarzenie
           </button>
         </div>
 
         <div className="participant-list-card">
-          <h2>Uczestnicy</h2>
+          <h2>Uczestnicy ({event.max_participants - event.available_spots})</h2>
           {participants.length === 0 ? (
             <p>Brak zapisanych uczestników.</p>
           ) : (
