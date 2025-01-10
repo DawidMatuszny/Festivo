@@ -12,7 +12,7 @@ class Event(models.Model):
     description = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     max_participants = models.PositiveIntegerField() 
-    available_spots = models.PositiveIntegerField() 
+    available_spots = models.PositiveIntegerField(null=True) 
     category = models.ForeignKey('Categories', related_name='events', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='events/', null=True, blank=True)
 

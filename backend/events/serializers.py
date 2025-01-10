@@ -5,7 +5,7 @@ from datetime import timedelta
 
 class EventSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False)
-    
+
     class Meta:
         model = Event
         fields = ['id', 'title', 'event_date', 'place', 'address', 'description', 'created_by', 'max_participants', 'available_spots', 'category', 'image']

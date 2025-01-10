@@ -8,6 +8,8 @@ from django.utils import timezone
 from datetime import datetime
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.generics import get_object_or_404
+from rest_framework.exceptions import ValidationError
+
 
 class EventCreateView(generics.CreateAPIView):
     queryset = Event.objects.all()
@@ -98,6 +100,24 @@ class EventEditDeleteView(RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         return Event.objects.filter(created_by=user)
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+
+        current_participants = instance.max_participants - instance.available_spots
+
+        max_participants = request.data.get('max_participants')
+        if max_participants:
+            max_participants = int(max_participants)
+
+            if max_participants < current_participants:
+                raise ValidationError({
+                    "detail": (
+                        f"Nie można ustawić maksymalnej liczby miejsc na mniej niż obecna liczba uczestników ({current_participants})."
+                    )
+                })
+
+        return super().update(request, *args, **kwargs)
     
 
 class EventDetailWithRegistrationsView(APIView):
