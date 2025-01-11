@@ -36,9 +36,10 @@ const MyEventDetail = () => {
       <div className="myevent-container">
         <div className="myevent-detail-card">
           <h1>{event.title}</h1>
+          <p><strong>Miejsce:</strong> {event.place}</p>
           <p><strong>Adres:</strong> {event.address}</p>
           <p><strong>Data:</strong> {new Date(event.event_date).toLocaleDateString()}</p>
-          <p><strong>Wolne miejsca:</strong> {event.available_spots}</p>
+          <p><strong>Miejsca:</strong> {event.available_spots} / {event.max_participants}</p>
           <button className="edit-button" onClick={() => navigate(`/edit-event/${id}`)}>
             Edytuj wydarzenie
           </button>

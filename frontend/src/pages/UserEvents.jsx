@@ -14,7 +14,8 @@ const UserEvents = () => {
     const fetchEvents = async () => {
       try {
         const response = await api.get("userapi/created-events/");
-        setEvents(response.data);
+        const upcomingEvents = response.data.filter(event => new Date(event.event_date) > new Date());
+        setEvents(upcomingEvents);
       } catch (error) {
         toast.error("Nie udało się pobrać wydarzeń.");
       } finally {

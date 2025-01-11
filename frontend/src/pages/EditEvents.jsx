@@ -3,21 +3,20 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../api";
 import { ToastContainer, toast } from "react-toastify";
 
-
 const EditEvent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
-  
+  const [imageFile, setImageFile] = useState(null);
+
   useEffect(() => {
     const fetchEvent = async () => {
       try {
         const response = await api.get(`/event/${id}/`);
-        console.log(response.data);
         setEvent(response.data);
       } catch (err) {
-        setError("Nie udało się pobrać szczegółów wydarzenia.");
+        toast.error("Nie udało się pobrać szczegółów wydarzenia.");
       } finally {
         setLoading(false);
       }
@@ -28,28 +27,57 @@ const EditEvent = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEvent({ ...event, [name]: value });
+
+    if (name === "max_participants") {
+      const newMaxParticipants = parseInt(value, 10);
+      const currentParticipants = event.max_participants - event.available_spots;
+      const newAvailableSpots = newMaxParticipants - currentParticipants;
+
+      setEvent({
+        ...event,
+        [name]: newMaxParticipants,
+        available_spots: newAvailableSpots,
+      });
+    } else {
+      setEvent({ ...event, [name]: value });
+    }
+  };
+
+  const handleImageChange = (e) => {
+    setImageFile(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { image, ...dataToUpdate } = event;
-      console.log("Sending data:", event);
-      await api.put(`/events/edit/${id}/`, dataToUpdate,  {
+
+      const formData = new FormData();
+      Object.keys(dataToUpdate).forEach((key) => {
+        formData.append(key, dataToUpdate[key]);
+      });
+
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
+      await api.put(`/events/edit/${id}/`, formData, {
         headers: {
-            "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
-    });
-      navigate("/my-events");
+      });
+
+      navigate(`/my-event/${event.id}`);
     } catch (error) {
-      console.log(error)
-      toast.error("Nie udało się zaktualizować wydarzenia.");
+      const errorMessage =
+        error.response && error.response.data
+          ? error.response.data.detail
+          : "Nie udało się zaktualizować wydarzenia.";
+      toast.error(errorMessage);
     }
   };
 
   if (loading) return <p>Ładowanie...</p>;
-
 
   return (
     <div id="main">
@@ -68,11 +96,41 @@ const EditEvent = () => {
               />
             </div>
             <div className="form-group">
+              <label>Miejsce</label>
+              <input
+                type="text"
+                name="place"
+                value={event.place}
+                onChange={handleInputChange}
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
               <label>Adres</label>
               <input
                 type="text"
                 name="address"
                 value={event.address}
+                onChange={handleInputChange}
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label>Opis</label>
+              <textarea
+                type="text"
+                name="description"
+                value={event.description}
+                onChange={handleInputChange}
+                className="form-input-desc"
+              />
+            </div>
+            <div className="form-group">
+              <label>Miejsca</label>
+              <input
+                type="text"
+                name="max_participants"
+                value={event.max_participants}
                 onChange={handleInputChange}
                 className="form-input"
               />
@@ -87,11 +145,32 @@ const EditEvent = () => {
                 className="form-input"
               />
             </div>
-            <button type="submit" className="edit-button">
-              Zapisz zmiany
-            </button>
+
+           
           </form>
         </div>
+
+        <div className="image-edit-card">
+          <h2>Zmień zdjęcie wydarzenia</h2>
+          <div className="image-preview-container">
+            {event.image && (
+              <img
+                src={event.image}
+                alt="Event Preview"
+                className="image-thumbnail"
+              />
+            )}
+          </div>
+          <input
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+            className="form-input-file"
+          />
+        </div>
+        <button type="submit" className="edit-button">
+              Zapisz zmiany
+            </button>
       </div>
       <ToastContainer position="top-center" />
     </div>

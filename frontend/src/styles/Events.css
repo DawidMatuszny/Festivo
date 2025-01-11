@@ -3,6 +3,8 @@
   flex-direction: column;
   gap: 20px;
   padding: 5vw;
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
 .event-card {
@@ -202,3 +204,5 @@
   .search-button:hover {
     background-color: hsl(var(--background-secondary-light));
   }
+
+  
