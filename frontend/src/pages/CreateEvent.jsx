@@ -79,6 +79,7 @@ function CreateEvents() {
             if (error.response && error.response.data) {
                 const backendErrors = error.response.data;
                 setErrors(backendErrors);
+                console.log(backendErrors)
             } else {
                 setErrors({ general: "Wystąpił błąd. Spróbuj ponownie." });
             }
@@ -149,7 +150,7 @@ function CreateEvents() {
                 placeholder="Liczba miejsc"
                 required
                 />
-            {errors.maxparticipants && <p className="form-error">{errors.maxparticipants}</p>}
+            {errors.max_participants && <p className="form-error">{errors.max_participants}</p>}
             <label htmlFor="categories">Kategoria</label>
             <select
                 className="form-input"

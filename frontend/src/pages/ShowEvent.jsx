@@ -5,12 +5,16 @@ import api from "../api";
 import "../styles/EventDetail.css";
 import defaultimage from '../assets/images/image1.jpg';
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useNotification } from "../NotificationContext";
 
 const ShowEvent = () => {
     const { id } = useParams();
     const [eventData, setEventData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const { notify } = useNotification(); 
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -33,8 +37,13 @@ const ShowEvent = () => {
             await api.post(`/event/register/`, { event: id });
             toast.success("Rejestracja zakończona sukcesem!");
         } catch (error) {
-            const errorMsg = error.response?.data?.detail || "Wystąpił błąd podczas rejestracji.";
-            toast.error(errorMsg);
+            if (error.originalError && error.originalError.status === 401) {
+                navigate('/login');
+                notify(error.message);
+            } else {
+                const errorMsg =  error.response?.data?.detail || "Wystąpił błąd podczas rejestracji.";
+                toast.error(errorMsg);
+            }
         }
     };
 

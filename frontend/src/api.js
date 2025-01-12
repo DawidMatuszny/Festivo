@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constants";
 
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
@@ -38,7 +39,7 @@ api.interceptors.response.use(
         localStorage.clear()
         console.error("Failed to refresh token:", error);
         return Promise.reject({
-          message: "Twoja sesja wygasła. Zaloguj się ponownie.",
+          message: "Sesja wygasła, zaloguj się ponownie!",
           originalError: error,
         });
       }

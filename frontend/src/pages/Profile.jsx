@@ -60,6 +60,11 @@ function Profile() {
   const handleProfilePictureUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
+      const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+      if (!validImageTypes.includes(file.type)) {
+        toast.error("Nieprawidłowy format pliku. Dozwolone formaty to: JPEG, PNG, GIF.");
+        return;
+      }
       const formData = new FormData();
       formData.append("profile_picture", file);
 
@@ -70,9 +75,9 @@ function Profile() {
           },
         });
         setProfilePicture(response.data.profile_picture);
-        notify("Zdjęcie profilowe zostało zaktualizowane!");
+        toast.success("Zdjęcie profilowe zostało zaktualizowane!");
       } catch (error) {
-        notify("Nie udało się zaktualizować zdjęcia profilowego.");
+        toast.error("Nie udało się zaktualizować zdjęcia profilowego.");
       }
     }
     fetchUserProfile();

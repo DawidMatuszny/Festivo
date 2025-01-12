@@ -4,11 +4,15 @@ import { Link } from "react-router-dom";
 import "../styles/events.css";
 import { ToastContainer, toast } from "react-toastify";
 import image1 from "../assets/images/image1.jpg";
+import { useNavigate } from "react-router-dom";
+import { useNotification } from "../NotificationContext";
 
 
 const UserEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const { notify } = useNotification(); 
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -17,7 +21,12 @@ const UserEvents = () => {
         const upcomingEvents = response.data.filter(event => new Date(event.event_date) > new Date());
         setEvents(upcomingEvents);
       } catch (error) {
+        if (error.originalError && error.originalError.status === 401) {
+          navigate('/login');
+          notify(error.message);
+      } else {
         toast.error("Nie udało się pobrać wydarzeń.");
+      }
       } finally {
         setLoading(false);
       }

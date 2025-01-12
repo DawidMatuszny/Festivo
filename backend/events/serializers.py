@@ -26,6 +26,11 @@ class EventSerializer(serializers.ModelSerializer):
                     'max_length': 'Maksymalna długość to 255 znaków.'
                 }
             },
+            'max_participants': {
+                'error_messages': {
+                    'min_value': 'Liczba uczestników nie może być mniejsza niż 0!'
+                }
+            },
         }
 
     def validate(self, attrs):

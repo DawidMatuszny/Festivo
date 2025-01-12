@@ -84,7 +84,6 @@ const EditEvent = () => {
       <div className="myevent-container">
         <div className="myevent-detail-card">
           <h1>Edytuj wydarzenie</h1>
-          <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Tytuł</label>
               <input
@@ -147,7 +146,7 @@ const EditEvent = () => {
             </div>
 
            
-          </form>
+          
         </div>
 
         <div className="image-edit-card">
@@ -168,9 +167,11 @@ const EditEvent = () => {
             className="form-input-file"
           />
         </div>
-        <button type="submit" className="edit-button">
-              Zapisz zmiany
-            </button>
+        <form onSubmit={handleSubmit}>
+          <button type="submit" className="edit-button">
+            Zapisz zmiany
+          </button>
+        </form>
       </div>
       <ToastContainer position="top-center" />
     </div>
