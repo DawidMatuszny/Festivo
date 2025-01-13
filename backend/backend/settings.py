@@ -30,7 +30,8 @@ SECRET_KEY = 'django-insecure-&86jen8aji1^cpm@_*bjdqvpiwmu2j4joj_mot7^_#k$%a@^3j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -71,7 +73,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -136,3 +137,6 @@ CORS_ALLOWS_CREDENTIALS = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+STRIPE_SECRET_KEY = 'sk_test_51Qgs3lFg3k8Ik01dajd53SZweQWLGoo2Pn8FV2xywuRHbwAsa7CTFPNqbWpJ0NWXPMVNq7KQ8OhyDJTWOmZaK5IK00qIzfEjIF'
+STRIPE_PUBLIC_KEY = 'pk_test_51Qgs3lFg3k8Ik01dQj3qTHQWu6cSJuvwtmjvnzFpniU2FdhBVhohaztqzQQQ7glhpULbPW1UTwlcfViMQSUOldbs00Qp5VsBYx'
