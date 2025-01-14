@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'userapi',
     'events',
     'django_extensions',
+    'payments',
 ]
 
 MIDDLEWARE = [

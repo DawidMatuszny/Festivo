@@ -8,7 +8,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'event_date', 'place', 'address', 'description', 'created_by', 'max_participants', 'available_spots', 'category', 'image']
+        fields = ['id', 'title', 'event_date', 'place', 'address', 'description', 'created_by', 'max_participants', 'available_spots', 'category', 'image', 'price']
         read_only_fields = ['created_at', 'created_by']
         extra_kwargs = {
             'title': {
@@ -31,6 +31,11 @@ class EventSerializer(serializers.ModelSerializer):
                     'min_value': 'Liczba uczestników nie może być mniejsza niż 0!'
                 }
             },
+            'price': {
+                'error_messages': {
+                    'min_value': 'Nagroda nie może być mniejsza niż 0!'
+                }
+            }
         }
 
     def validate(self, attrs):

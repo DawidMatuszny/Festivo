@@ -1,43 +1,55 @@
 import stripe
-from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework import status
+from django.shortcuts import redirect
+from rest_framework.views import APIView
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
-stripe.api_key = settings.STRIPE_SECRET_KEY
+from events.views import Event
+from django.shortcuts import get_object_or_404
+import logging
 
-@csrf_exempt
-def create_checkout_session(request):
-    try:
-        session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            line_items=[
+stripe.api_key = settings.STRIPE_SECRET_KEY
+logger = logging.getLogger(__name__)
+class create_checkout_session(APIView):
+    def post(self, request, event_id):
+        event = get_object_or_404(Event, id=event_id)
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                line_items=[
                 {
                     'price_data': {
-                        'currency': 'usd',
+                        'currency': 'pln',
                         'product_data': {
-                            'name': 'Produkt testowy',  
+                            'name': event.title,  
                         },
-                        'unit_amount': 2000,  # Cena w centach
+                        'unit_amount': int(event.price * 100),
                     },
                     'quantity': 1,
                 },
             ],
-            mode='payment',
-            success_url='http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url='http://localhost:3000/cancel',
-        )
-        return JsonResponse({'id': session.id})
-    except Exception as e:
-        return JsonResponse({'error': str(e)})
-    
-    
-def payment_details(request):
+                payment_method_types=['card',],
+                mode='payment',
+                success_url='http://127.0.0.1:8000/payment-success/?session_id={CHECKOUT_SESSION_ID}&event_id={event.id}',
+                cancel_url='http://localhost:5173/',
+            )
+
+            return Response({'url': checkout_session.url}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error(f"Błąd przy tworzeniu sesji płatności: {str(e)}")
+            return Response(
+                {'error': f'Wystąpił błąd: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
+def payment_success(request):
     session_id = request.GET.get('session_id')
-    session = stripe.checkout.Session.retrieve(session_id)
-    payment_intent = stripe.PaymentIntent.retrieve(session.payment_intent)
+    if session_id:
+        try:
+            session = stripe.checkout.Session.retrieve(session_id)
+            if session.payment_status == 'paid':
 
-    return JsonResponse({
-        'status': payment_intent['status'],
-        'amount': payment_intent['amount'],
-        'product_name': session['line_items']['data'][0]['description']
-    })
+                return redirect('http://localhost:5173/thank-you/')
+        except Exception as e:
+            return redirect('/payment-failure/')
 
+    return redirect('/') 
