@@ -4,7 +4,6 @@ import api from "../api";
 import { useUser } from "../UserContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 import { useNotification } from "../NotificationContext";
 
 function CreateEvents() {
@@ -13,15 +12,15 @@ function CreateEvents() {
     const [place, setPlace] = useState("");
     const [address, setAddress] = useState("");
     const [description, setDescription] = useState("");
-    const [maxparticipants, setMaxparticipants] =useState(0);
+    const [maxparticipants, setMaxparticipants] = useState(0);
     const [category, setCategory] = useState("");
     const [availablecategories, setAvailablecategories] = useState([]);
     const [image, setImage] = useState(null);
+    const [price, setPrice] = useState("");
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const { logout } = useUser();
     const { notify } = useNotification(); 
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchcategories = async () => {
@@ -52,6 +51,7 @@ function CreateEvents() {
         formData.append("description", description);
         formData.append("max_participants", maxparticipants);
         formData.append("category", category);
+        formData.append("price", price);
 
         if (image) {
             formData.append("image", image);
@@ -73,13 +73,14 @@ function CreateEvents() {
             setMaxparticipants(0);
             setCategory(availablecategories.length > 0 ? availablecategories[0].id : "");
             setImage(null);
+            setPrice(0);
             setErrors({});
             
         } catch (error) {
             if (error.response && error.response.data) {
                 const backendErrors = error.response.data;
                 setErrors(backendErrors);
-                console.log(backendErrors)
+                console.log(backendErrors);
             } else {
                 setErrors({ general: "Wystąpił błąd. Spróbuj ponownie." });
             }
@@ -104,7 +105,7 @@ function CreateEvents() {
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Nazwa wydarzenia"
                 required
-                />
+            />
             {errors.title && <p className="form-error">{errors.title}</p>}
             <input
                 className="form-input"
@@ -113,7 +114,7 @@ function CreateEvents() {
                 onChange={(e) => setEventdate(e.target.value)}
                 placeholder="Data"
                 required
-                />
+            />
             {errors.event_date && <p className="form-error">{errors.event_date}</p>}
             <input
                 className="form-input"
@@ -122,7 +123,7 @@ function CreateEvents() {
                 onChange={(e) => setPlace(e.target.value)}
                 placeholder="Miejsce wydarzenia"
                 required
-                />
+            />
             {errors.place && <p className="form-error">{errors.place}</p>}
              <input
                 className="form-input"
@@ -131,7 +132,7 @@ function CreateEvents() {
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Adres wydarzenia"
                 required
-                />
+            />
             {errors.address && <p className="form-error">{errors.address}</p>}
             <textarea
                 className="form-input-desc"
@@ -140,7 +141,7 @@ function CreateEvents() {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Opis"
                 required
-                />
+            />
             {errors.description && <p className="form-error">{errors.description}</p>}
             <input
                 className="form-input"
@@ -149,7 +150,7 @@ function CreateEvents() {
                 onChange={(e) => setMaxparticipants(e.target.value)}
                 placeholder="Liczba miejsc"
                 required
-                />
+            />
             {errors.max_participants && <p className="form-error">{errors.max_participants}</p>}
             <label htmlFor="categories">Kategoria</label>
             <select
@@ -163,6 +164,16 @@ function CreateEvents() {
                     </option>
                 ))}
             </select>
+            
+            <input
+                className="form-input"
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="Cena wydarzenia (opcjonalne)"
+            />
+            {errors.price && <p className="form-error">{errors.price}</p>}
+            
             <input
                 className="form-input"
                 type="file"
@@ -180,4 +191,4 @@ function CreateEvents() {
     );
 }
 
-export default CreateEvents
+export default CreateEvents;

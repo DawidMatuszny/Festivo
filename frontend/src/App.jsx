@@ -11,11 +11,12 @@ import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import UserEvents from "./pages/UserEvents";
 import EditEvent from "./pages/EditEvents";
+import PaymentCancel from "./pages/PaymentCancel";
+import PaymentsSuccess from "./pages/PaymentSuccess";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import CategoryEvents from './pages/CategoryEvents';
 import MyEventDetail from "./pages/MyEventDetail";
-import PaymentButton from "./pages/test";
 import "./styles/main.css"
 import { UserProvider } from './UserContext';
 import { NotificationProvider } from "./NotificationContext";
@@ -46,7 +47,8 @@ function App() {
           <Route path="/my-events" element={<UserEvents />} />
           <Route path="/edit-event/:id" element={<EditEvent />} />
           <Route path="/my-event/:id" element={<MyEventDetail />} />
-          <Route path="/payy" element={<PaymentButton />} />
+          <Route path="/payments-cancel" element={<PaymentCancel />} />
+          <Route path="payments-success" element={<PaymentsSuccess />} />
         </Routes>
         </NotificationProvider>
       </UserProvider>

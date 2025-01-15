@@ -34,14 +34,23 @@ const ShowEvent = () => {
 
     const handleRegister = async () => {
         try {
-            await api.post(`/event/register/`, { event: id });
-            toast.success("Rejestracja zakończona sukcesem!");
-        } catch (error) {
-            if (error.originalError && error.originalError.status === 401) {
-                navigate('/login');
-                notify(error.message);
+            if (eventData.price) {
+                const response = await api.post(`/create-checkout-session/${id}/`);
+                if (response.data?.url) {
+                    window.location.href = response.data.url;
+                } else {
+                    toast.error("Nie udało się rozpocząć procesu płatności.");
+                }
             } else {
-                const errorMsg =  error.response?.data?.detail || "Wystąpił błąd podczas rejestracji.";
+                await api.post(`/event/register/`, { event: id });
+                toast.success("Rejestracja zakończona sukcesem!");
+            }
+        } catch (error) {
+            if (error.response?.status === 401) {
+                navigate('/login');
+                notify("Musisz być zalogowany, aby zarejestrować się na wydarzenie.");
+            } else {
+                const errorMsg = error.response?.data?.error || "Wystąpił błąd podczas rejestracji.";
                 toast.error(errorMsg);
             }
         }
@@ -79,7 +88,9 @@ const ShowEvent = () => {
                     </div>
 
                     <div className="event-registration">
-                        <button className="register-button" onClick={handleRegister}>Zapisz się na wydarzenie!</button>
+                        <button className="register-button" onClick={handleRegister}>
+                            {eventData.price ? "Zarejestruj się i zapłać" : "Zarejestruj się"}
+                        </button>
                     </div>
                 </div>
             </div>
