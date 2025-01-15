@@ -51,17 +51,17 @@ class EventRegistrationCreateView(generics.ListCreateAPIView):
         event = serializer.validated_data['event']
 
         if event.event_date < timezone.now():
-            raise serializers.ValidationError({"detail": "Nie można zapisać się na wydarzenie, które już się odbyło."})
+            raise serializers.ValidationError({"error": "Nie można zapisać się na wydarzenie, które już się odbyło."})
 
         if EventRegistration.objects.filter(user=user, event=event).exists():
-            raise serializers.ValidationError({"detail": "Jesteś już zapisany na to wydarzenie."})
+            raise serializers.ValidationError({"error": "Jesteś już zapisany na to wydarzenie."})
 
         if event.available_spots > 0:
             serializer.save(user=user)
             event.available_spots -= 1
             event.save()
         else:
-            raise serializers.ValidationError({"detail": "Brak dostępnych miejsc na to wydarzenie."})
+            raise serializers.ValidationError({"error": "Brak dostępnych miejsc na to wydarzenie."})
 
 
 class EventSearchView(APIView):

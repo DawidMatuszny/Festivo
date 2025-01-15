@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from userapi.views import CreateUserView, LoginUserView, LoggedUserDetailView, UserEventsView, UploadProfilePictureView, ChangePasswordView, UserCreatedEventsView
 from events.views import EventCreateView, EventListView, EventDetailView, CategoriesListView, EventRegistrationCreateView, EventSearchView, EventEditDeleteView, EventDetailWithRegistrationsView
-from payments.views import create_checkout_session, payment_success
+from payments.views import create_checkout_session, payment_cancel, payment_success
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -28,7 +28,8 @@ urlpatterns = [
     path('events/edit/<int:pk>/', EventEditDeleteView.as_view(), name='edit-delete-event'),
     path('event/my-event/<int:event_id>/', EventDetailWithRegistrationsView.as_view(), name='my-event-detail'),
     path('create-checkout-session/<int:event_id>/', create_checkout_session.as_view(), name='create-checkout-session'),
-    path('payment-success/', payment_success),
+    path('payment-success/', payment_success, name='payment-success'),
+    path('payment-cancel/', payment_cancel, name='payment-cancel'),
 ]
 
 if settings.DEBUG:

@@ -29,6 +29,7 @@ class Categories(models.Model):
 class EventRegistration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='event_registrations')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='participants')
+    is_temporary = models.BooleanField(default=False)
     registered_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
