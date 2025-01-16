@@ -26,6 +26,7 @@ class EventListView(generics.ListAPIView):
         category_id = self.request.query_params.get('category', None)
         if category_id:
             queryset = queryset.filter(category_id=category_id)
+            queryset = queryset.order_by('event_date')
         return queryset
 
 class EventDetailView(generics.RetrieveAPIView):

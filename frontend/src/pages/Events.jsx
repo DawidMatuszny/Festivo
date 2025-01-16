@@ -12,13 +12,14 @@ import { IoFootball } from "react-icons/io5";
 const Events = () => {
   const navigate = useNavigate();
 
-  const handleCategoryClick = (categoryID) => {
-    navigate(`/events/${categoryID}`); 
+  const handleCategoryClick = (categoryID, categoryName) => {
+    navigate(`/events/${categoryID}/${categoryName}`);
   };
+
   return (
     <div id='main'>
       <div className="category-container">
-        <div className="category-card" onClick={() => handleCategoryClick('1')} style={{ cursor: "pointer" }}>
+        <div className="category-card" onClick={() => handleCategoryClick('1', 'sztuka i kultura')} style={{ cursor: "pointer" }}>
           <div className="category-icon">
             <GiPaintBrush />
           </div>
