@@ -46,76 +46,83 @@ function Search() {
 
   return (
     <div id="main">
+      <div>
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            placeholder="Tytuł wydarzenia..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="search-input"
+          />
+          <input
+            type="text"
+            placeholder="Miejsce wydarzenia..."
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="search-input"
+          />
+          <input
+            type="date"
+            placeholder="Data od..."
+            value={dateFrom}
+            onChange={(e) => setDateFrom(e.target.value)}
+            className="search-input"
+          />
+          <input
+            type="date"
+            placeholder="Data do..."
+            value={dateTo}
+            onChange={(e) => setDateTo(e.target.value)}
+            className="search-input"
+          />
+          <button type="submit" className="search-button">
+            {loading ? "Szukam..." : "Szukaj"}
+          </button>
+        </form>
         <div>
-            <form onSubmit={handleSearch} className="search-form">
-            <input
-                type="text"
-                placeholder="Tytuł wydarzenia..."
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="search-input"
-            />
-            <input
-                type="text"
-                placeholder="Miejsce wydarzenia..."
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="search-input"
-            />
-            <input
-                type="date"
-                placeholder="Data od..."
-                value={dateFrom}
-                onChange={(e) => setDateFrom(e.target.value)}
-                className="search-input"
-            />
-            <input
-                type="date"
-                placeholder="Data do..."
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
-                className="search-input"
-            />
-            <button type="submit" className="search-button">
-                {loading ? "Szukam..." : "Szukaj"}
-            </button>
-            </form>
-            <div>
-            {loading && showLoading ? (
-                <p>Ładowanie wyników...</p>
-            ) : hasSearched && results.length === 0 ? (
-                <p>Brak wyników.</p>
-            ) : (
-                <div className="event-container">
-                {results.map((event) => (
-                    <a
-                    key={event.id}
-                    href={`/event/${event.id}`}
-                    className="event-card"
-                    style={{ textDecoration: "none" }}
-                    >
-                    <div
-                        className="event-image"
-                        style={{
-                        backgroundImage: `url(${event.image ? event.image : image1})`,
-                        }}
-                    ></div>
+          {loading && showLoading ? (
+            <p>Ładowanie wyników...</p>
+          ) : hasSearched && results.length === 0 ? (
+            <p>Brak wyników.</p>
+          ) : (
+            <div className="event-container">
+              {results.map((event) => (
+                <a
+                  key={event.id}
+                  href={`/event/${event.id}`}
+                  className="event-card"
+                  style={{ textDecoration: "none" }}
+                >
+                  <div
+                    className="event-image"
+                    style={{
+                      backgroundImage: `url(${event.image ? event.image : image1})`,
+                    }}
+                  ></div>
+                  <div className="event-info">
                     <div className="event-description">
-                        <h3>{event.title}</h3>
-                        <p>{event.address}</p>
+                      <h3>{event.title}</h3>
+                      <p>{event.address}</p>
                     </div>
-                    <div className="event-date">
+                    <div className="event-data-and-prize">
+                      <div className="event-date">
                         <p>{new Date(event.event_date).toLocaleDateString()}</p>
+                      </div>
+                      <div className="event-price">
+                        <p>{event.price ? `${event.price} zł` : "Bezpłatne!"}</p>
+                      </div>
                     </div>
-                    </a>
-                ))}
-                </div>
-            )}
+                  </div>
+                </a>
+              ))}
             </div>
+          )}
         </div>
-        <ToastContainer position="top-center"/>
+      </div>
+      <ToastContainer position="top-center" />
     </div>
   );
-}
+};
 
 export default Search;

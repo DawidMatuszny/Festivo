@@ -89,7 +89,7 @@ const ShowEvent = () => {
 
                     <div className="event-registration">
                         <button className="register-button" onClick={handleRegister}>
-                            {eventData.price ? "Zarejestruj się i zapłać" : "Zarejestruj się"}
+                            {eventData.price ? "Zapisz się na wydarzenie i zapłać" : "Zapisz się na wydarzenie"}
                         </button>
                     </div>
                 </div>

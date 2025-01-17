@@ -38,35 +38,45 @@ const UserEvents = () => {
   if (loading) return <p>Ładowanie...</p>;
 
   return (
-    <div id="main">
-      <h1>Twoje wydarzenia</h1>
-      <div className="event-container">
-        {events.map((event) => (
-          <Link
-            key={event.id}
-            to={`/my-event/${event.id}`}
-            className="event-card"
-            style={{ textDecoration: "none" }}
-          >
-            <div
-              className="event-image"
-              style={{
-                backgroundImage: `url(${event.image ? event.image : image1})`,
-              }}
-            ></div>
-            <div className="event-description">
-              <h3>{event.title}</h3>
-              <p>{event.address}</p>
-            </div>
-            <div className="event-date">
-              <p>{new Date(event.event_date).toLocaleDateString()}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
-      <ToastContainer position="top-center" />
-    </div>
-  );
+	<div id="main">
+		<div className='event-header'>
+			<p><strong>Twoje wydarzenia</strong></p>
+		</div>
+		<div className="event-container">
+			{events.map((event) => (
+				<Link
+					key={event.id}
+					to={`/my-event/${event.id}`}
+					className="event-card"
+					style={{ textDecoration: "none" }}
+				>
+					<div
+						className="event-image"
+						style={{
+							backgroundImage: `url(${event.image ? event.image : image1})`,
+						}}
+					></div>
+					<div className='event-info'>
+						<div className="event-description">
+							<h3>{event.title}</h3>
+							<p>{event.address}</p>
+						</div>
+						<div className='event-data-and-prize'>
+							<div className='event-date'>
+								<p>{new Date(event.event_date).toLocaleDateString()}</p>
+							</div>
+							<div className='event-price'>
+								<p>{event.price ? `${event.price} zł` : "Bezpłatne!"}</p>
+							</div>
+						</div>
+					</div>
+				</Link>
+			))}
+		</div>
+		<ToastContainer position="top-center" />
+	</div>
+);
+ 
 };
 
 export default UserEvents;

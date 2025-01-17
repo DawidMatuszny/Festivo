@@ -54,7 +54,7 @@ const CategoryEvents = () => {
 									<p>{new Date(event.event_date).toLocaleDateString()}</p>
 								</div>
 								<div className='event-price'>
-									<p>{event.price}zł</p>
+									<p>{event.price ? `${event.price} zł` : "Bezpłatne!"}</p>
 								</div>
 							</div>
 						</div>

@@ -101,6 +101,7 @@ class UserCreatedEventsView(APIView):
     def get(self, request):
         user = request.user
         events = Event.objects.filter(created_by=user)
+        events = events.order_by('event_date')
         serializer = EventSerializer(events, many=True, context={'request': request})
         return Response(serializer.data)
     
