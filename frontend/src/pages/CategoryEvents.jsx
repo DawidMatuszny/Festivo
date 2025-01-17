@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import image1 from '../assets/images/image1.jpg';
 import "../styles/events.css";
@@ -32,16 +32,16 @@ const CategoryEvents = () => {
 			</div>
 			<div className="event-container">
 				{events.map((event) => (
-					<a 
-						key={event.id} 
-						href={`/event/${event.id}`} 
-						className="event-card" 
+					<a
+						key={event.id}
+						href={`/event/${event.id}`}
+						className="event-card"
 						style={{ textDecoration: 'none' }}
 					>
 						<div
 							className="event-image"
 							style={{
-								backgroundImage: `url(${event.image ? event.image : image1})`, 
+								backgroundImage: `url(${event.image ? event.image : image1})`,
 							}}
 						></div>
 						<div className='event-info'>
