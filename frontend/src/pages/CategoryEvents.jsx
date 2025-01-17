@@ -65,5 +65,4 @@ const CategoryEvents = () => {
 	);
 };
 
-
 export default CategoryEvents;
