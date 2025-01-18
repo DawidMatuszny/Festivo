@@ -235,7 +235,7 @@ function Profile() {
       </section>
 
       <section className="calendar-section">
-        <h2>Kalendarz wydarzeń</h2>
+        <h>Kalendarz wydarzeń</h>
         <div className="calendar-container">
           <div className="calendar-wrapper">
             <Calendar

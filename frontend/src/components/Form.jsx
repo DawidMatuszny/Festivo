@@ -62,8 +62,8 @@ function Form({ route, method }) {
   return (
     <div className="form-back"> 
       <form onSubmit={handleSubmit} className="form-container">
-      <h1>{formTitle}</h1>
-      {errors.general && <p className="form-error">{errors.general}</p>}
+        <h><strong>{formTitle}</strong></h>
+        {errors.general && <p className="form-error">{errors.general}</p>}
 
           <input
           className="form-input"
@@ -131,12 +131,12 @@ function Form({ route, method }) {
         {formTitle}
       </button>
       {isLogin && (
-          <p className="form-register-link">
+          <p>
             <Link to="/register" className="link-no-underline">Nie masz konta? Zarejestruj się!</Link>
           </p>
         )}
         {!isLogin && (
-          <p className="form-register-link">
+          <p>
             <Link to="/login" className="link-no-underline">Masz już konto? Zaloguj się!</Link>
           </p>
         )}

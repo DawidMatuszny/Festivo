@@ -15,7 +15,7 @@
   border-radius: 8px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   gap: 15px;
-  background: white;
+  background-color: hsl(var(--background-secondary-light));
 }
 
 .event-card:hover {
@@ -55,6 +55,7 @@
 
 .event-header p {
   font-size: 30px ;
+  color: white;
 }
 
 .event-info {
@@ -73,13 +74,13 @@
 .event-description h3 {
   margin: 0 0 10px;
   font-size: 18px;
-  color: #333;
+  color: white;
 }
 
 .event-description p {
   margin: 0;
   font-size: 14px;
-  color: #666;
+  color: white;
 }
 
 .event-data-and-prize {
@@ -94,6 +95,7 @@
 
 .event-date p {
   font-size: 14px;
+  color: white;
 }
 
 .event-price {
@@ -212,6 +214,7 @@
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    opacity: 70%;
     transition: border-color 0.3s ease;
   }
   
@@ -225,7 +228,7 @@
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
-    background-color: hsl(var(--background));
+    background-color: hsl(var(--background-secondary-dark));
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -233,7 +236,7 @@
   }
   
   .search-button:hover {
-    background-color: hsl(var(--background-secondary-light));
+    opacity: 80%;
   }
 
   

@@ -34,7 +34,7 @@ const ShowEvent = () => {
 
     const handleRegister = async () => {
         try {
-            if (eventData.price) {
+            if (eventData.price > 0) {
                 const response = await api.post(`/create-checkout-session/${id}/`);
                 if (response.data?.url) {
                     window.location.href = response.data.url;
@@ -83,13 +83,13 @@ const ShowEvent = () => {
                             <li><strong>Godzina:</strong> {new Date(eventData.event_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
                             <li><strong>Miejsce:</strong> {eventData.place}</li>
                             <li><strong>Adres:</strong> {eventData.address}</li>
-                            <li><strong>Cena:</strong> {eventData.price ? `${eventData.price} PLN` : "Bezpłatne"}</li>
+                            <li><strong>Cena:</strong> {eventData.price > 0 ? `${eventData.price} PLN` : "Bezpłatne"}</li>
                         </ul>
                     </div>
 
                     <div className="event-registration">
                         <button className="register-button" onClick={handleRegister}>
-                            {eventData.price ? "Zapisz się na wydarzenie i zapłać" : "Zapisz się na wydarzenie"}
+                            {eventData.price > 0 ? "Zapisz się na wydarzenie i zapłać" : "Zapisz się na wydarzenie"}
                         </button>
                     </div>
                 </div>

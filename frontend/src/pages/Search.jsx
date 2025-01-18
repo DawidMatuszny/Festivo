@@ -110,7 +110,7 @@ function Search() {
                         <p>{new Date(event.event_date).toLocaleDateString()}</p>
                       </div>
                       <div className="event-price">
-                        <p>{event.price ? `${event.price} zł` : "Bezpłatne!"}</p>
+                        <p>{event.price > 0 ? `${event.price} zł` : "Bezpłatne!"}</p>
                       </div>
                     </div>
                   </div>

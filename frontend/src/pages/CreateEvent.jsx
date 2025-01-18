@@ -12,7 +12,7 @@ function CreateEvents() {
     const [place, setPlace] = useState("");
     const [address, setAddress] = useState("");
     const [description, setDescription] = useState("");
-    const [maxparticipants, setMaxparticipants] = useState(0);
+    const [maxparticipants, setMaxparticipants] = useState("");
     const [category, setCategory] = useState("");
     const [availablecategories, setAvailablecategories] = useState([]);
     const [image, setImage] = useState(null);
@@ -95,99 +95,99 @@ function CreateEvents() {
 
     return (
         <div id="main"> 
-        <div className="form-back">
-        <form onSubmit={handleSubmit} className="form-container">
-        <h1>Dodawanie wydarzenia</h1>
-            <input
-                className="form-input"
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Nazwa wydarzenia"
-                required
-            />
-            {errors.title && <p className="form-error">{errors.title}</p>}
-            <input
-                className="form-input"
-                type="datetime-local"
-                value={eventdate}
-                onChange={(e) => setEventdate(e.target.value)}
-                placeholder="Data"
-                required
-            />
-            {errors.event_date && <p className="form-error">{errors.event_date}</p>}
-            <input
-                className="form-input"
-                type="text"
-                value={place}
-                onChange={(e) => setPlace(e.target.value)}
-                placeholder="Miejsce wydarzenia"
-                required
-            />
-            {errors.place && <p className="form-error">{errors.place}</p>}
-             <input
-                className="form-input"
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Adres wydarzenia"
-                required
-            />
-            {errors.address && <p className="form-error">{errors.address}</p>}
-            <textarea
-                className="form-input-desc"
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Opis"
-                required
-            />
-            {errors.description && <p className="form-error">{errors.description}</p>}
-            <input
-                className="form-input"
-                type="number"
-                value={maxparticipants}
-                onChange={(e) => setMaxparticipants(e.target.value)}
-                placeholder="Liczba miejsc"
-                required
-            />
-            {errors.max_participants && <p className="form-error">{errors.max_participants}</p>}
-            <label htmlFor="categories">Kategoria</label>
-            <select
-                className="form-input"
-                value={category} 
-                onChange={(e) => setCategory(e.target.value)}
-            >
-                {availablecategories.map((tag) => (
-                    <option key={tag.id} value={tag.id}>
-                        {tag.name}
-                    </option>
-                ))}
-            </select>
-            
-            <input
-                className="form-input"
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="Cena wydarzenia (opcjonalne)"
-            />
-            {errors.price && <p className="form-error">{errors.price}</p>}
-            
-            <input
-                className="form-input"
-                type="file"
-                onChange={handleFileChange}
-            />
-            <p className="errors">{errors.image}</p>
+            <div className="form-back">
+                <form onSubmit={handleSubmit} className="form-container">
+                    <h>Dodawanie wydarzenia</h>
+                    <input
+                        className="form-input"
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Nazwa wydarzenia"
+                        required
+                    />
+                    {errors.title && <p className="form-error">{errors.title}</p>}
+                    <input
+                        className="form-input"
+                        type="datetime-local"
+                        value={eventdate}
+                        onChange={(e) => setEventdate(e.target.value)}
+                        placeholder="Data"
+                        required
+                    />
+                    {errors.event_date && <p className="form-error">{errors.event_date}</p>}
+                    <input
+                        className="form-input"
+                        type="text"
+                        value={place}
+                        onChange={(e) => setPlace(e.target.value)}
+                        placeholder="Miejsce wydarzenia"
+                        required
+                    />
+                    {errors.place && <p className="form-error">{errors.place}</p>}
+                    <input
+                        className="form-input"
+                        type="text"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        placeholder="Adres wydarzenia"
+                        required
+                    />
+                    {errors.address && <p className="form-error">{errors.address}</p>}
+                    <textarea
+                        className="form-input-desc"
+                        type="text"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Opis"
+                        required
+                    />
+                    {errors.description && <p className="form-error">{errors.description}</p>}
+                    <input
+                        className="form-input"
+                        type="number"
+                        value={maxparticipants}
+                        onChange={(e) => setMaxparticipants(e.target.value)}
+                        placeholder="Liczba miejsc"
+                        required
+                    />
+                    {errors.max_participants && <p className="form-error">{errors.max_participants}</p>}
+                    <label htmlFor="categories">Kategoria</label>
+                    <select
+                        className="form-input"
+                        value={category} 
+                        onChange={(e) => setCategory(e.target.value)}
+                    >
+                        {availablecategories.map((tag) => (
+                            <option key={tag.id} value={tag.id}>
+                                {tag.name}
+                            </option>
+                        ))}
+                    </select>
+                    
+                    <input
+                        className="form-input"
+                        type="number"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        placeholder="Cena wydarzenia (opcjonalne)"
+                    />
+                    {errors.price && <p className="form-error">{errors.price}</p>}
+                    
+                    <input
+                        className="form-input"
+                        type="file"
+                        onChange={handleFileChange}
+                    />
+                    <p className="errors">{errors.image}</p>
 
-            <button className="form-button" type="submit" disabled={loading}>
-                {loading ? "Dodawanie..." : "Dodaj"}
-            </button>
-        </form>
-    </div>
-    <ToastContainer position="top-center"/>
-    </div>
+                    <button className="form-button" type="submit" disabled={loading}>
+                        {loading ? "Dodawanie..." : "Dodaj"}
+                    </button>
+                </form>
+            </div>
+            <ToastContainer position="top-center"/>
+        </div>
     );
 }
 
