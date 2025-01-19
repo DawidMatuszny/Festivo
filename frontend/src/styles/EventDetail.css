@@ -7,7 +7,7 @@
   width: 90%;
   margin: 0 auto;
   padding: 20px;
-  background-color: hsl(var(--background-secondary-light), 0.8);
+  background-color: hsl(var(--background-secondary-light), 0.4);
   border-radius: 80px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

@@ -15,7 +15,7 @@
   border-radius: 8px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   gap: 15px;
-  background-color: hsl(var(--background-secondary-light));
+  background-color: hsl(var(--background-secondary-light), 0.5);
 }
 
 .event-card:hover {

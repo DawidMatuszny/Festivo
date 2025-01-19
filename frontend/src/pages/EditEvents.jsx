@@ -144,6 +144,16 @@ const EditEvent = () => {
 					className="form-input"
 				/>
 				</div>
+				<div className="form-group">
+				<label>Cena</label>
+				<input
+					type="text"
+					name="price"
+					value={event.price}
+					onChange={handleInputChange}
+					className="form-input"
+				/>
+				</div>
 
 			
 			
